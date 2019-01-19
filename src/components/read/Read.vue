@@ -82,7 +82,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .read {
-  min-height: 600px;
+//   min-height: 600px;
   background-color: #c4b395;
   padding: 20px;
   line-height: 24px;

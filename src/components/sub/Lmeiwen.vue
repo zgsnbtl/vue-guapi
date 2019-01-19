@@ -8,7 +8,7 @@
       <router-link :to="{name:'book',params:{id:item._id}}" class="mui-table-view-cell" tag="li">
         <div class="mui-table">
           <div class="mui-table-cell mui-col-xs-10">
-            <img class="mui-media-object mui-pull-left" :src="item.cover" alt>
+            <img class="mui-media-object mui-pull-left" :src="item.cover|getcover" alt>
             <h4 class="mui-ellipsis">{{item.title}}</h4>
             <h5>{{item.author}}</h5>
             <p class="mui-h6 mss">{{item.shortIntro}}</p>
@@ -27,8 +27,17 @@
   </div>
 </template>
 <script>
+import {coverimg} from "../time/time.js"
 export default {
-    props:['booklist']
+    props:['booklist'],
+    filters:{
+      getcover(cover){
+        if(cover.indexOf(coverimg) > -1) {
+                return cover;
+            }
+        return coverimg + cover
+      }
+    }
 }
 </script>
 <style lang="scss" scoped>

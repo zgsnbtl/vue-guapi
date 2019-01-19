@@ -83,5 +83,8 @@ font-size: 12px;
     }
 
 }
+.fenlei{
+    height: 500px;
+}
 }
 </style>

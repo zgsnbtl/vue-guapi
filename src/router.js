@@ -8,6 +8,8 @@ import Book from './components/book/Book.vue'
 import Read from './components/read/Read.vue'
 import Mvlu from './components/read/Mvlu.vue'
 import List from './components/read/List.vue'
+import Clylist from './components/read/Clylist.vue'
+import Search from './components/read/Search-list.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -55,6 +57,16 @@ export default new Router({
       path: '/list:id',
       name: 'list',
       component: List
+    },
+    {
+      path: '/clylist/:major:gender',
+      name: 'clylist',
+      component: Clylist
+    },
+    {
+      path: '/search:val',
+      name: 'search',
+      component: Search
     }
     // {
     //   path: '/',

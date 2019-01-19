@@ -40,7 +40,7 @@ export default {
                    console.log(this.booksid)
                  })
         })
-        },
+        }
 
         // selectlistid(){
         //   this.$emit('select-list',this.zllist.id)

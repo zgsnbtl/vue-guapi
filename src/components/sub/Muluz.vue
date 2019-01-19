@@ -5,7 +5,7 @@
             <p><span>共{{zjlist.length}}章</span><span @click="show"><span v-if="flag">倒序</span><span v-else>正序</span></span></p>
         </div>
        <ul class="mui-table-view" v-for="item in zjlist" :key="item.id">
-				 <router-link class="mui-table-view-cell" :to="{name:'read',params:{link:item.link,id:booksid}}" tag="li">{{item.title}}</router-link>
+				 <router-link  class="mui-table-view-cell" :to="{name:'read',params:{link:item.link,id:booksid}}" tag="li">{{item.title}}</router-link>
 			</ul>
     </div>
     </div>
@@ -23,7 +23,7 @@ export default {
         show(){
             this.flag=!this.flag;
             this.zjlist.reverse()
-        }
+        },
     }
 }
 </script>

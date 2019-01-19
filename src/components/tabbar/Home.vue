@@ -2,8 +2,10 @@
   <div class="home">
     <!-- 轮播 -->
     <mt-swipe :auto="4000">
-  <mt-swipe-item v-for="(item,i) in booklunbo" :key="i"><img :src="item.img" alt></mt-swipe-item>
+  <mt-swipe-item  v-for="(item,i) in booklunbo" :key="i"><img @click="lunbo(item.link)" :src="item.img" alt></mt-swipe-item>
 </mt-swipe>
+ <!-- 搜索 -->
+<search></search>
     <!-- 分类 -->
     <div class="con" v-for="item in booktitle" :key="item.id">
          <p class="p1">{{item.title}}</p>
@@ -19,18 +21,17 @@
 </template>
 
 <script>
+import search from '../sub/search'
 export default {
   data() {
     return {
-      title: '精品推荐',
-      title1: '女生美文',
-      title2: '男生热文',
       booktitle:{},
       nslist:{},
       booklunbo:{},
       booklist:{}
     }
   },
+  components:{search},
   created(){
 this.getbook()
   },
@@ -66,10 +67,13 @@ this.getbook()
         this.$axios.get('/api/recommendPage/node/spread/575f74f27a4a60dc78a435a3?pl=ios').then(res=>{
           //  console.log(res)
            if(res.data.ok){
-             this.booklunbo=res.data.data
-              //  console.log("00000"+this.booklunbo)
+             this.booklunbo=res.data.data.slice(1, 5)
+               console.log("00000"+this.booklunbo)
            }
         });
+      },
+      lunbo(id){
+        this.$router.push({name:"book",params:{id:id}})
       },
       // 解决图片加载问题
       imgurl(arr) {

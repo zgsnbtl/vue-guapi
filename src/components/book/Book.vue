@@ -63,14 +63,19 @@
     </div>
     <!-- 评论 -->
     <pinglun :plid="books._id"></pinglun>
+    <!-- 同类推荐 -->
+<recommend :recommentlist="recommentlist" :recid="books._id"></recommend>
   </div>
 </template>
 <script>
+import { mapState,mapMutations } from 'vuex'
+import { BOOK_PAGE } from '../store/mutationsType.js'
 import { formatDate } from "../time/time.js";
 import yuedu from "../sub/Yuedu";
 import pinglun from "../sub/Pinglun";
-import { book, bookmulu } from "../api/api.js";
+import { book, bookmulu,bookrecommend } from "../api/api.js";
 import { Toast } from 'mint-ui';
+import recommend from '../sub/Recommend'
 export default {
   data() {
     return {
@@ -80,12 +85,14 @@ export default {
       // zjlist: {},
       aa:'',
       booklinks:[],
-      booktitle:[]
+      booktitle:[],
+      recommentlist:[]
     };
   },
   components: {
     pinglun,
-    yuedu
+    yuedu,
+    recommend
   },
   filters: {
     formatDate(time) {
@@ -94,6 +101,10 @@ export default {
     }
   },
   created() {
+    this.SET_HEADER_INFO({
+			headtitle: '同类推荐',
+			headtype: BOOK_PAGE
+		});
     this.getlist();
     this.getbook();
     // this.getmulu();
@@ -110,14 +121,27 @@ export default {
         : this.books.latelyFollower;
     }
   },
+  // watch:{
+  //   $route:function(){
+  //      bookrecommend(this.books._id).then(res => {
+  //     if (res.status === 200) {
+  //       this.recommentlist = res.data.books;
+  //     }
+  //   });
+  //   }
+  // },
   methods: {
+    ...mapMutations([
+			'SET_HEADER_INFO'
+		]),
     getlist() {
       Toast('加载中');
       this.$axios.get("/api/book/" + this.$route.params.id).then(res => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           this.books = this.imguRl(res.data);
           this.getbook(this.books._id);
+          this.getcommend(this.books._id)
         }
       });
     },
@@ -134,6 +158,16 @@ export default {
         // this.getmulu(this.aa)
    }
       });
+    },
+// 获取同类推荐
+    getcommend(id){
+      bookrecommend(id).then(res => {
+        // console.log(res.data.books)
+      if (res.status === 200) {
+        this.recommentlist = res.data.books;
+        // console.log(this.recommentlist)
+      }
+    });
     },
     // getmulu(id) {
     //   //  目录
