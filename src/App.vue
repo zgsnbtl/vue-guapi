@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-<mt-header ref="header" fixed title="这个少年不太冷">
+<mt-header v-if="fag" ref="header" fixed title="这个少年不太冷">
   <div @click="getback" v-show="flag" slot="left">
     <mt-button icon="back">返回</mt-button>
   </div>
@@ -11,7 +11,7 @@
   </mt-button>
 </mt-header>
  <!-- 底部 -->
- <mt-tabbar ref="tabbar" fixed>
+ <mt-tabbar ref="tabbar" v-if="fag" fixed>
   <mt-tab-item>
     <router-link :to="{name:'home'}" tag="div">
     <svg class="icon" aria-hidden="true">
@@ -45,14 +45,15 @@
     </router-link>
   </mt-tab-item>
 </mt-tabbar>
-<router-view :appref="$refs"></router-view>
+<router-view :appref="$refs" @fangfa="show"></router-view>
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
-    flag:false,
+    flag:true,
+    fag:true,
     boxheight:''
     }
   },
@@ -63,18 +64,20 @@ export default {
   methods:{
   getback(){
       this.$router.go(-1);
+    },
+    show(data){
+      this.fag=data;
     }
   },
-  watch:{
-    '$route.path':function(newval){
-      if(newval==='/home'){
-       this.flag=false
-      }else{
-        this.flag=true
-      }
-    }
-  }
-  
+  // watch:{
+  //   '$route.path':function(newval){
+  //     if(newval==='/home'){
+  //      this.flag=false
+  //     }else{
+  //       this.flag=true
+  //     }
+  //   }
+  // }
 }
 </script>
 <style lang="scss" scope>

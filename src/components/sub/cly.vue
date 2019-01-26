@@ -5,7 +5,7 @@
         <ul v-for="items in arr" :key="items.id" class="mui-table-view">
                <p>{{items.title}}</p>
                <div class="dliss">
-                   	<router-link tag="li" :to="{name:'clylist',params:{major:item.name,gender:items.gender}}" v-for="item in items.catList" :key="item.name" class="mui-table-view-cell"><h3>{{item.name}}</h3><h3>{{item.bookCount}}</h3></router-link>
+                   	<router-link tag="li" :to="{name:'clylist',params:{major:item.name,gender:items.gender}}" v-for="item in items.catList" :key="item.name" class="mui-table-view-cell"><h3>{{item.name}}</h3><h3>{{item.bookCount}}本</h3></router-link>
                </div>
 		
 		</ul>

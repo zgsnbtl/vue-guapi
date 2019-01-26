@@ -9,7 +9,7 @@ export function book(id) {
 }
 // 获取目录列表
 export function bookmulu(id) {
-  return axios.get(`/api//btoc/${id}?view=chapters&channel=mweb`)
+  return axios.get(`/api/btoc/${id}?view=chapters&channel=mweb`)
 }
 // 获取章节内容
 export function bookcontent(link) {

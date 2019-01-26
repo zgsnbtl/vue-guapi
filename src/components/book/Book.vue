@@ -64,7 +64,7 @@
     <!-- 评论 -->
     <pinglun :plid="books._id"></pinglun>
     <!-- 同类推荐 -->
-<recommend :recommentlist="recommentlist" :recid="books._id"></recommend>
+    <recommend :recommentlist="recommentlist" :recid="books._id"></recommend>
   </div>
 </template>
 <script>
@@ -106,7 +106,8 @@ export default {
 			headtype: BOOK_PAGE
 		});
     this.getlist();
-    this.getbook();
+    this.getbook(this.$route.params.id);
+    this.getcommend(this.$route.params.id);
     // this.getmulu();
   },
   computed: {
@@ -132,16 +133,15 @@ export default {
   // },
   methods: {
     ...mapMutations([
-			'SET_HEADER_INFO'
+      'SET_HEADER_INFO',
+      'SET_BOOK'
 		]),
     getlist() {
       Toast('加载中');
       this.$axios.get("/api/book/" + this.$route.params.id).then(res => {
-        // console.log(res);
         if (res.status === 200) {
           this.books = this.imguRl(res.data);
-          this.getbook(this.books._id);
-          this.getcommend(this.books._id)
+          this.SET_BOOK(this.books)
         }
       });
     },
@@ -169,21 +169,6 @@ export default {
       }
     });
     },
-    // getmulu(id) {
-    //   //  目录
-    //   // var arr=[];
-    //   bookmulu(id).then(res => {
-    //     console.log(res)
-    //     for(let i=0;i<res.data.chapters.length; i++){
-    //       this.booktitle.push(res.data.chapters[i].title);
-    //       this.booklinks.push(encodeURIComponent(res.data.chapters[i].link))
-    //       // this.booklinks.push({titlt:res.data.chapters[i].title,link:encodeURIComponent(res.data.chapters[i].link)})
-    //       // console.log(this.booklinks)
-    //     // this.zjlist = res.data.chapters;
-    //     // console.log(arr);
-    //     }
-    //   });
-    // },
     imguRl(arr) {
       arr.cover = unescape(arr.cover);
       arr.cover = arr.cover.replace("/agent/", "");

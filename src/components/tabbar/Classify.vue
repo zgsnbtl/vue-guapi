@@ -48,26 +48,7 @@ export default {
                        if (obj !== null) {
                             this.arr.push(obj);
                         }
-                  }
-                // console.log(res.data)
-                // this.arr.push(res.data);
-                // console.log(this.arr)
-                // this.arr.filter(item=>{
-                //     return item.picture.title='女生'
-                // })
-                //   this.arr.forEach(item => {
-                
-                //           item.female.title='女生'
-              
-                //           item.male.title='男生'
-
-                //           item.picture.title='漫画'
-
-                //           item.press.title='出版'
-
-                //   });
-               
-                  
+                  }                
               }
           })
       }
