@@ -18,7 +18,7 @@
           </div>
         </a>
         <!-- 加入书架阅读 -->
-        <yuedu :booklinks="aa"></yuedu>
+        <yuedu :booklinks="this.books._id"></yuedu>
       </li>
     </ul>
 
@@ -55,11 +55,16 @@
     </div>
     <!-- 目录 -->
     <div>
-      <router-link :to="{name:'mvlu',params:{id:this.books._id}}" class="mulu" tag="p">
+       <router-link :to="{name:'read',params:{id:this.books._id,show:true}}" class="mulu" tag="p">
         <span>目录</span>
         <span>{{ books.updated | formatDate }}</span>
         <span>{{books.lastChapter}}</span>
       </router-link>
+      <!-- <router-link :to="{name:'mvlu',params:{id:this.books._id}}" class="mulu" tag="p">
+        <span>目录</span>
+        <span>{{ books.updated | formatDate }}</span>
+        <span>{{books.lastChapter}}</span>
+      </router-link> -->
     </div>
     <!-- 评论 -->
     <pinglun :plid="books._id"></pinglun>
@@ -106,7 +111,7 @@ export default {
 			headtype: BOOK_PAGE
 		});
     this.getlist();
-    this.getbook(this.$route.params.id);
+    // this.getbook(this.$route.params.id);
     this.getcommend(this.$route.params.id);
     // this.getmulu();
   },
@@ -145,20 +150,20 @@ export default {
         }
       });
     },
-    getbook(id) {
-      // 根据书籍信息id获取目录
-      var list = [];
-      //    书籍信息
-      book(id).then(res => {
-            //  console.log(res);
-   for (let i = 0; i < res.data.length; i++) {          
-        list.push(res.data[i]._id);
-        this.aa =list[0];
-                // console.log( this.aa);
-        // this.getmulu(this.aa)
-   }
-      });
-    },
+  //   getbook(id) {
+  //     // 根据书籍信息id获取目录
+  //     var list = [];
+  //     //    书籍信息
+  //     book(id).then(res => {
+  //           //  console.log(res);
+  //  for (let i = 0; i < res.data.length; i++) {          
+  //       list.push(res.data[i]._id);
+  //       this.aa =list[0];
+  //               // console.log( this.aa);
+  //       // this.getmulu(this.aa)
+  //  }
+  //     });
+  //   },
 // 获取同类推荐
     getcommend(id){
       bookrecommend(id).then(res => {

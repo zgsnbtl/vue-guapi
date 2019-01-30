@@ -1,30 +1,55 @@
 <template>
 <div>
-<mumluz :zjlist="zjlist" :booksid="booksid"></mumluz>
+ <div class="mvlu">
+     <mt-header fixed :title="title.title">
+  <div @click="getback" slot="left">
+    <mt-button icon="back">返回</mt-button>
+  </div>
+  <mt-button slot="right">
+    <svg class="icon" aria-hidden="true">
+  <use xlink:href="#icon-shudan"></use>
+</svg>
+  </mt-button>
+</mt-header>
+ <div class="paixu-p"><span>共{{zjlist.length}}章</span><span @click="show"><span v-if="flag">倒序</span><span v-else>正序</span></span></div>
+        <div class="paixu">
+        </div>
+       <ul class="mui-table-view" v-for="(item,i) in zjlist" :key="item.id">
+				 <li @click="getmulu(i)" class="mui-table-view-cell" >{{item.title}}</li>
+			</ul>
+    </div>
     </div>
 </template>
 <script>
+import {mapState,mapMutations} from 'vuex'
 import {book,bookmulu} from '../api/api.js'
 import mumluz from '../sub/Muluz'
 import { Toast } from 'mint-ui';
 export default {
     data () {
         return {
-    //   list:{},
-    //   aa:'' ,
       zjlist:[],
-      bookid:this.$route.params.id,
+      bookid:this.id,
       booksid:null,
-      flag:true
+      flag:true,
+      title:{}
         }
-    },
+    }, 
+    computed: {
+            ...mapState([
+         'calbook'
+     ])
+        },
+    props:['id'],
     components:{mumluz},
     created(){
    this.getmvlu();
-//    this.selectlistid()
+   this.title=JSON.parse(window.localStorage.getItem('SHEFLBOOK')) || {};
     },
-    // props:['zjlist'],
     methods:{
+        getback(){
+        this.$router.go(-1)
+        },
         // 根据书籍信息id获取目录
         getmvlu(){
              Toast('加载中');
@@ -40,14 +65,63 @@ export default {
                    console.log(this.booksid)
                  })
         })
+        },
+        // 目录倒叙
+        show(){
+            this.flag=!this.flag;
+            this.zjlist.reverse()
+        },
+        getmulu(i){  
+              this.$emit('readshow',i);
+            //  this.$router.push({name:'read',params:{link,id}});
+//              var carbook = JSON.parse(window.localStorage.getItem('book'))
+//              carbook[this.calbook._id] = {
+//             cover: this.calbook.cover,
+//             flag:!this.flag,
+//             title: this.calbook.title,
+//             lastChapter:this.calbook.lastChapter,
+//             id: this.calbook._id,
+//             author:this.calbook.author,
+//             chapterIndexCache: i,
+//             bookSource: 0,
+//             pageIndexCache: 0,
+//           };
+//  window.localStorage.setItem('book', JSON.stringify(carbook))
         }
-
-        // selectlistid(){
-        //   this.$emit('select-list',this.zllist.id)
-        // }
     }
 }
 </script>
 <style lang="scss" scoped>
-
+.mvlu{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    z-index: 9999;
+    background-color: #fff;
+    // transform: translateX(-100%);
+    // transition: transform .15s;
+        li{
+            font-size: 13px;
+            color: #333;
+        }
+        .paixu-p{
+             position: fixed;
+             top: 30px;
+             left: 0;
+             width: 100%;
+             background-color: #fff;
+             z-index: 110;
+              display: flex;
+            justify-content: space-between;
+            padding: 0px 20px;
+            color: #00BC79;
+            font-size: 15px;
+         }
+        .paixu{
+            margin-top: 60px;
+        }
+}
 </style>

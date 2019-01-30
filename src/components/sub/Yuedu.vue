@@ -1,7 +1,7 @@
 <template>
   <div class="yuedu">
     <mt-button type="primary" @click="getbook" size="small" plain>{{flag?'加入书架':'撤出书架'}}</mt-button>
-    <mt-button type="danger" size="small" @click="getyuedu">立即阅读</mt-button>
+    <mt-button type="danger" size="small" @click="getyuedu">{{flag?'立即阅读':'继续阅读'}}</mt-button>
   </div>
 </template>
 <script>
@@ -92,7 +92,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .yuedu {
-  margin-top: -40px;
     .mint-button--primary.is-plain{
     color: #00C98C;
     border: 1px solid #00C98C;

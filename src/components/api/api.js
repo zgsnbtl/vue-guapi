@@ -59,3 +59,7 @@ export function bookranks(id) {
 export function booksearch(key) {
   return axios.get(`/api/book/fuzzy-search?query=${key}`)
 }
+// 换源
+export function bookhy(id) {
+  return axios.get(`/api/atoc/?view=summary&book=${id}`)
+}

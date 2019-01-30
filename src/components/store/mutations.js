@@ -1,7 +1,9 @@
 import {
   SET_HEADER_INFO,
   SET_BOOK,
-  BOOK_UPDATE
+  BOOK_UPDATE,
+  BOOK_USERCOLOR,
+  BOOK_USERFONT
 } from './mutationsType'
 import {
   setStore
@@ -18,5 +20,13 @@ export default {
   [BOOK_UPDATE](state, books) {
     state.shuajiabook = books
     setStore('BOOK_UPDATE', state.shuajiabook)
+  },
+  [BOOK_USERCOLOR](state, usercolor) {
+    state.usercolor = usercolor
+    setStore('BOOK_USERCOLOR', state.usercolor)
+  },
+  [BOOK_USERFONT](state, userfont) {
+    state.userfont = userfont
+    setStore('BOOK_USERFONT', state.userfont)
   }
 }

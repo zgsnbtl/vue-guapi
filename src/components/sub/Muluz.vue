@@ -5,7 +5,7 @@
             <p><span>共{{zjlist.length}}章</span><span @click="show"><span v-if="flag">倒序</span><span v-else>正序</span></span></p>
         </div>
        <ul class="mui-table-view" v-for="(item,i) in zjlist" :key="item.id">
-				 <li @click="getmulu(item.link,booksid,i)" class="mui-table-view-cell" >{{item.title}}</li>
+				 <li @click="getmulu(i)" class="mui-table-view-cell" >{{item.title}}</li>
 			</ul>
     </div>
     </div>
@@ -31,8 +31,9 @@ export default {
             this.zjlist.reverse()
         },
    
-        getmulu(link,id,i){  
-             this.$router.push({name:'read',params:{link,id}});
+        getmulu(i){  
+              this.$emit('readshow',i);
+            //  this.$router.push({name:'read',params:{link,id}});
              var carbook = JSON.parse(window.localStorage.getItem('book'))
              carbook[this.calbook._id] = {
             cover: this.calbook.cover,
@@ -46,12 +47,23 @@ export default {
             pageIndexCache: 0,
           };
  window.localStorage.setItem('book', JSON.stringify(carbook))
+
         }
     }
 }
 </script>
 <style lang="scss" scoped>
 .mvlu{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    z-index: 9999;
+    background-color: #fff;
+    // transform: translateX(-100%);
+    // transition: transform .15s;
         li{
             font-size: 13px;
             color: #333;
