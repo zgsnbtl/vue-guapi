@@ -106,7 +106,6 @@ export default {
     console.log(this.major)
     console.log(this.mins);
     //  this.getclylist(this.gender, this.type, this.major, minor = "", start = 0, limit = 20)
-
   },
   methods: {
     setlist(item) {

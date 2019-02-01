@@ -4,7 +4,8 @@
       <p class="recom-s"></p>
       <p class="recom-p">
         <span>同类推荐</span>
-        <router-link :to="{name:'list',params:{id:recid}}" tag="span">更多
+        <router-link :to="{name:'list',params:{id:recid}}" tag="span">
+          更多
           <i class="mui-icon mui-icon-arrowright"></i>
         </router-link>
       </p>
@@ -16,7 +17,7 @@
         :key="item.id"
       >
         <a href="#">
-          <img  @click="show" class="mui-media-object" :src="item.cover|setcover">
+          <img @click="show" class="mui-media-object" :src="item.cover|setcover">
           <div class="mui-media-body">{{item.title}}</div>
         </a>
       </router-link>
@@ -29,34 +30,34 @@ import { coverimg } from "../time/time.js";
 export default {
   data() {
     return {
-      recommentlist:{}
+      recommentlist: {}
     };
   },
   props: ["recid"],
   created() {
-     this.getcommend()
+    this.getcommend();
   },
   filters: {
     setcover(cover) {
       return coverimg + cover;
     }
   },
-   watch:{
-    '$route.params':'getcommend'
+  watch: {
+    "$route.params": "getcommend"
   },
-  methods:{
-        getcommend(){
+  methods: {
+    getcommend() {
       bookrecommend(this.$route.params.id).then(res => {
-      if (res.status === 200) {
-        this.recommentlist = res.data.books;
-      }
-    });
-        },
-      show(){
-        //   点击刷新更新页面
-          // window.location.reload();
-         this.$emit('book-top')
-      }
+        if (res.status === 200) {
+          this.recommentlist = res.data.books;
+        }
+      });
+    },
+    show() {
+      //   点击刷新更新页面
+      // window.location.reload()
+      this.$emit("book-top");
+    }
   }
 };
 </script>

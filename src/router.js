@@ -67,7 +67,7 @@ export default new Router({
       name: 'clylist',
       component: Clylist
       // meta: {
-      //   keepAlive: true // 需要被缓存
+      //   keepAlive: true // 缓存
       // }
     },
     {

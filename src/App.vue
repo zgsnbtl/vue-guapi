@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-<mt-header v-if="fag" ref="header" fixed title="你今天真好看！！">
+<mt-header v-if="fag" ref="header" fixed title="你今天真好看！">
   <div @click="getback" v-show="flag" slot="left">
     <mt-button icon="back">返回</mt-button>
   </div>

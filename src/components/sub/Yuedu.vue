@@ -35,7 +35,6 @@ export default {
         getyuedu(){
         //   var book=this.calbook
         //    var carbook = JSON.parse(window.localStorage.getItem('book')||'{}')
-
         //      carbook[book._id] = {
         //     cover: book.cover,
         //     flag:!this.flag,

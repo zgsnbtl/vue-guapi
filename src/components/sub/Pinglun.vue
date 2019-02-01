@@ -51,7 +51,7 @@ export default {
      bookpl(this.$route.params.id,this.limit).then(res => {
         if (res.status === 200) {
             this.pinglun = res.data.reviews
-                 this.limit+=5
+                this.limit+=5
         }
       })
       this.loading=false;
