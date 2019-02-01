@@ -48,7 +48,8 @@ export default {
     },
     methods:{
         getback(){
-        this.$router.go(-1)
+        // this.$router.go(-1)
+         this.$emit('readshow');
         },
         // 根据书籍信息id获取目录
         getmvlu(){

@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-<mt-header v-if="fag" ref="header" fixed title="我还以为你从来都不会选我呢">
+<mt-header v-if="fag" ref="header" fixed title="你今天真好看！！">
   <div @click="getback" v-show="flag" slot="left">
     <mt-button icon="back">返回</mt-button>
   </div>
@@ -45,7 +45,10 @@
     </router-link>
   </mt-tab-item>
 </mt-tabbar>
-<router-view :appref="$refs" @fangfa="show"></router-view>
+<keep-alive>
+<router-view v-if="$route.meta.keepAlive" :appref="$refs" @fangfa="show"></router-view>
+</keep-alive>
+<router-view v-if="!$route.meta.keepAlive" :appref="$refs" @fangfa="show"></router-view>
   </div>
 </template>
 <script>

@@ -29,28 +29,33 @@ import { coverimg } from "../time/time.js";
 export default {
   data() {
     return {
+      recommentlist:{}
     };
   },
-  props: ["recommentlist", "recid"],
+  props: ["recid"],
   created() {
-    // bookrecommend(this.reid).then(res => {
-    //     console.log(res.data.books)
-    //   if (res.status === 200) {
-    //     this.recommentlist = res.data.books;
-    //     console.log(this.recommentlist)
-    //   }
-    // });
+     this.getcommend()
   },
   filters: {
     setcover(cover) {
       return coverimg + cover;
     }
   },
+   watch:{
+    '$route.params':'getcommend'
+  },
   methods:{
+        getcommend(){
+      bookrecommend(this.$route.params.id).then(res => {
+      if (res.status === 200) {
+        this.recommentlist = res.data.books;
+      }
+    });
+        },
       show(){
         //   点击刷新更新页面
-          window.location.reload();
-          console.log("1")
+          // window.location.reload();
+         this.$emit('book-top')
       }
   }
 };

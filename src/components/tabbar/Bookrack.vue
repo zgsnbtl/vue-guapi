@@ -23,12 +23,15 @@
   </div>
 </template>
 <script>
+// import { book, bookmulu,bookrecommend } from "../api/api.js";
 import { mapState, mapMutations } from "vuex";
 import { MessageBox } from 'mint-ui';
 export default {
   data() {
     return {
-      books: []
+      books: [],
+      getBook:{},
+      bookstit:{}
     };
   },
   computed: {
@@ -38,9 +41,11 @@ export default {
     this.getbook();
     console.log(this.calbook);
     console.log(this.books);
-    // var shujiabookid=Array.from(this.shuajiabook,book=>book.id)
   },
   methods: {
+    ...mapMutations([
+      'SET_BOOK'
+		]),
     getbook() {
       // let bookidArray=[]
       var carbook = JSON.parse(window.localStorage.getItem("book") || "{}");
@@ -56,18 +61,22 @@ export default {
   localStorage.setItem('book', JSON.stringify(del))
           window.location.reload() 
 })
-//       if (e && e.preventDefault) {
-//         e.preventDefault();
-//         console.log(e)
-// //        MessageBox.confirm('确定要从书架中删除').then(action => {
-// //   this.books.slice(i,1)
-// // })
-//       } //IE中阻止函数器默认动作的方式
-//       else {
-//         window.event.returnValue = false;
-//         return false;
-//       }
-   }
+   },
+  //  imguRl(arr) {
+  //     arr.cover = unescape(arr.cover);
+  //     arr.cover = arr.cover.replace("/agent/", "");
+  //     return arr;
+  //   },
+  //  getlist(id) {
+  //       console.log(id)
+  //     this.$axios.get("/api/book/"+id).then(res => {
+  //       if (res.status === 200) {
+  //         this.bookstit = this.imguRl(res.data);
+  //         this.SET_BOOK(this.bookstit)
+  //       }
+  //       console.log(this.bookstit)
+  //     });
+  //   },
   }
 }
 </script>

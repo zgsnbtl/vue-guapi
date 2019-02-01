@@ -10,7 +10,7 @@ import {chapterContent,bookcontent} from '../api/api.js'
 export default {
     data () {
         return {
-          flag:true
+          flag:null
         }
     },
     props:['booklinks'],
@@ -19,9 +19,12 @@ export default {
      ...mapState([
        'calbook','shuajiabook'
      ])
-    },  
+    },
+    watch:{
+      '$route':'ifFlag'
+    },
     created(){
-      console.log(this.calbook)
+      console.log(this.booklinks)
       // this.calbook
       this.ifFlag()
     },

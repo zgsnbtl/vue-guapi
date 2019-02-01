@@ -4,7 +4,7 @@ import Home from './components/tabbar/Home.vue'
 import Classify from './components/tabbar/Classify.vue'
 import Rank from './components/tabbar/Rank.vue'
 import Bookrack from './components/tabbar/Bookrack.vue'
-import Book from './components/book/Book.vue'
+// import Book from './components/book/Book.vue'
 import Read from './components/read/Read.vue'
 import Mvlu from './components/read/Mvlu.vue'
 import List from './components/read/List.vue'
@@ -41,7 +41,11 @@ export default new Router({
     {
       path: '/book:id',
       name: 'book',
-      component: Book
+      // component: Book,
+      component: resolve => require(['./components/book/Book'], resolve),
+      meta: {
+        keepAlive: true // 缓存
+      }
     },
     {
       path: '/read:id',
@@ -62,6 +66,9 @@ export default new Router({
       path: '/clylist/:major:gender',
       name: 'clylist',
       component: Clylist
+      // meta: {
+      //   keepAlive: true // 需要被缓存
+      // }
     },
     {
       path: '/search:val',

@@ -41,10 +41,12 @@
 <div class="mui-card" style="margin-bottom: 35px;">
 				<ul class="mui-table-view">
 					<li @click.stop="gethy(item,i)" v-for="(item,i) in bookhylist" :key="i" class="mui-table-view-cell">
-						<a class="mui-navigate-right">
+						<a :class="['mui-navigate-right',{'active':hyindex===i}]">
+              <!-- <a :class="{'active':hyindex===i}"> -->
 							{{item.name}}
+               <p :class="['yh-p',{'active':hyindex===i}]">最后更新：{{item.lastChapter}}</p>
 						</a>
-            <p class="yh-p">最后更新：{{item.lastChapter}}</p>
+           
 					</li>
 				</ul>
 			</div>
@@ -88,11 +90,11 @@ export default {
       {
         background: '#3E4349'
       }],
-      getfonts:'',
+      getfonts:12,
       getcolor:{},
       datahy:false,
       bookhylist:{},
-      hyindex:1,
+      hyindex:0,
       getshujia:null
     };
   },
@@ -103,8 +105,11 @@ export default {
   destroyed() {
     this.getread(true);
   },
+  watch:{
+    'route':'getbookhy'
+  },
   created() {
-    this.getfonts = JSON.parse(window.localStorage.getItem("BOOK_USERFONT"));
+    this.getfonts = JSON.parse(window.localStorage.getItem("BOOK_USERFONT"))||12;
     this.getcolor = JSON.parse(window.localStorage.getItem("BOOK_USERCOLOR")||'{}');
     this.getBook = JSON.parse(window.localStorage.getItem("SHEFLBOOK"));
     this.getshujia = JSON.parse(window.localStorage.getItem("BOOK_UPDATE"));
@@ -116,6 +121,7 @@ export default {
     if(this.$route.params.show){
       this.show=true
     }
+          console.log(this.shuajiabook)
   },
   methods: {
     ...mapMutations({
@@ -126,36 +132,72 @@ export default {
     getread(data) {
       this.$emit("fangfa", data);
     },
-    getsj(){
-      this.getshujia=!this.getshujia
-      this.setbook(this.getshujia);
-    },
-    getspan() {
-      var carbook = JSON.parse(window.localStorage.getItem("book"));
-      if (!this.shuajiabook) {
-        this.$router.go(-1);
-      } else {
-        MessageBox.confirm("是否要加入书架")
+    getsj(){ // 阅读页面加入书架
+      // this.getshujia=!this.getshujia
+      // this.setbook(this.getshujia);
+       if(this.getshujia){
+          MessageBox.confirm("是否要加入书架")
           .then(action => {
-            this.$router.go(-1);
-            carbook[this.getBook._id] = {
+            this.getshujia=!this.getshujia
+            this.getBooks()
+            this.setbook(false);
+            this.getBookindex();
+          })
+          .catch(() => {
+          this.getDelbook();
+            this.getshujia=this.getshujia
+            this.setbook(true);
+          });
+       }else{
+         this.getDelbook();
+          this.getshujia=true
+          this.setbook(true);
+       }
+    },
+    // 缓存阅读章节索引方法
+    getBookindex(){
+      var bookindex = JSON.parse(window.localStorage.getItem("bookindex") || "{}");
+       bookindex[this.getBook._id]={
+              bookindex:this.iss
+        }
+      window.localStorage.setItem("bookindex", JSON.stringify(bookindex));
+    },
+    // 缓存加入书架图书信息方法
+    getBooks(){
+        var carbook = JSON.parse(window.localStorage.getItem("book")||'{}');
+         carbook[this.getBook._id] = {
               cover: this.getBook.cover,
               flag: !this.flag,
               title: this.getBook.title,
               lastChapter: this.getBook.lastChapter,
               id: this.getBook._id,
               author: this.getBook.author,
-              chapterIndexCache: this.iss,
               bookSource: 0,
               pageIndexCache: 0
             };
-            this.setbook(false);
+         window.localStorage.setItem("book", JSON.stringify(carbook));
+    },
+    // 删除图书缓存方法
+    getDelbook(){
+       var carbook = JSON.parse(window.localStorage.getItem("book")||'{}');
+      delete carbook[this.getBook._id];
             window.localStorage.setItem("book", JSON.stringify(carbook));
+    },
+    getspan() { // 加入书架将阅读章节位置数据缓存和图书缓存
+      if (!this.shuajiabook) {
+        this.$router.go(-1);
+        this.getBookindex();
+      } else {
+        MessageBox.confirm("是否要加入书架")
+          .then(action => {
+            this.$router.go(-1);
+            this.getBooks();
+            this.setbook(false);
+            this.getBookindex();
           })
           .catch(() => {
             this.$router.go(-1);
-            delete carbook[this.getBook._id];
-            window.localStorage.setItem("book", JSON.stringify(carbook));
+            this.getDelbook()
             this.setbook(true);
           });
       }
@@ -165,6 +207,7 @@ export default {
       this.show=false;
       console.log('asd')
       this.iss=data
+      this.getBookindex();
        this.getcontent(this.booklinkss[this.iss]);
          this.$refs.dvtop.scrollTop=0;
     },
@@ -174,6 +217,8 @@ export default {
     getmulu(id) {
       //  目录
      this.booklinkss=[]
+     this.booktitle=[] //push后数据叠加 现将数组数据清空
+     var bookindexs = JSON.parse(window.localStorage.getItem("bookindex") || "{}");//章节位置
       var carbook = JSON.parse(window.localStorage.getItem("book"));
       console.log(this.getBook);
       // var booklinks = [];
@@ -185,11 +230,12 @@ export default {
           this.booklinkss.push(encodeURIComponent(item.link));
           this.booktitle.push(item.title);
         });
-          // console.log(this.booklinkss)
+          console.log(bookindexs)
         this.iss =
-          carbook && carbook[this.getBook._id]
-            ? carbook[this.getBook._id].chapterIndexCache
+          bookindexs && bookindexs[this.getBook._id]
+            ? bookindexs[this.getBook._id].bookindex
             : this.iss;
+            console.log(this.iss)
         this.getcontent(this.booklinkss[this.iss]);
       });
     },
@@ -212,47 +258,51 @@ export default {
           var cont = content[0];
           // this.con = this.con.concat(cont); //  将上一章的内容拼接到下一章中
           this.con=cont
-
         }
       });
     },
     // 加载上一章
     before(){
        this.$refs.dvtop.scrollTop=0;
-         var carbook = JSON.parse(window.localStorage.getItem("book") || "{}");
-         this.iss<=0?0:this.iss-=1;
-          carbook[this.getBook._id] = {
-        cover: this.getBook.cover,
-        flag: !this.flag,
-        title: this.getBook.title,
-        lastChapter: this.getBook.lastChapter,
-        id: this.getBook._id,
-        author: this.getBook.author,
-        chapterIndexCache: this.iss,
-        bookSource: 0,
-        pageIndexCache: 0
-      };
-      window.localStorage.setItem("book", JSON.stringify(carbook));
+         // 缓存章节数据
+        //  var carbook = JSON.parse(window.localStorage.getItem("book") || "{}");
+        //  this.iss<=0?0:this.iss-=1;
+         if(this.iss<=0){
+           this.iss=0
+            Toast('已经是第一章了')
+         }else{
+           this.iss--
+         }
+         bookindex[this.getBook._id]={
+       bookindex:this.iss
+     }
+      //   carbook[this.getBook._id] = {
+      //   cover: this.getBook.cover,
+      //   flag: !this.flag,
+      //   title: this.getBook.title,
+      //   lastChapter: this.getBook.lastChapter,
+      //   id: this.getBook._id,
+      //   author: this.getBook.author,
+      //   chapterIndexCache: this.iss,
+      //   bookSource: 0,
+      //   pageIndexCache: 0
+      // };
+      this.getBookindex();
+      // window.localStorage.setItem("book", JSON.stringify(carbook));
        this.getmulu(this.bookhylist[this.hyindex]._id);
     },
     // 点击加载下一章
     page() {
   
       this.$refs.dvtop.scrollTop=0;
-      var carbook = JSON.parse(window.localStorage.getItem("book") || "{}");
-      this.iss++;
-      carbook[this.getBook._id] = {
-        cover: this.getBook.cover,
-        flag: !this.flag,
-        title: this.getBook.title,
-        lastChapter: this.getBook.lastChapter,
-        id: this.getBook._id,
-        author: this.getBook.author,
-        chapterIndexCache: this.iss,
-        bookSource: 0,
-        pageIndexCache: 0
-      };
-      window.localStorage.setItem("book", JSON.stringify(carbook));
+      // 缓存章节数据
+      if(this.iss>=this.booktitle.length-1){
+        this.iss=this.booktitle.length-1
+        Toast('已经是最后一章了')
+      }else{
+        this.iss++
+      }
+      this.getBookindex()
       this.getmulu(this.bookhylist[this.hyindex]._id);
       console.log(this.getmulu);
     },
@@ -262,7 +312,7 @@ export default {
     // 字体设置
     setfont(fonts){
      if(fonts==='red'){
-       if(this.getfonts===10){
+       if(this.getfonts<=10){
          return
        }else{
          this.getfonts--
@@ -270,10 +320,10 @@ export default {
        }
      }
      if(fonts==='add'){
-       if(this.getfonts===24){
+       if(this.getfonts>=26){
          return
        }else{
-         this.getfonts++
+        this.getfonts++
          this.setfonts(this.getfonts)
        }
      }
@@ -354,7 +404,7 @@ export default {
     position: fixed;
     top: 40px;
     right: 0;
-     background-color: rgba($color: #000000, $alpha: 0.5);
+     background-color: rgba($color: #000000, $alpha: 0.7);
      font-size: 14px;
      color: #fff;
      padding: 0px 5px;
@@ -365,7 +415,8 @@ export default {
     position: fixed;
     bottom: 0;
     left: 0;
-    background-color: rgba($color: #000000, $alpha: 0.5);
+    z-index: 110;
+    background-color: rgba($color: #000000, $alpha: 0.7);
     .mui-icon{
       display: flex;
       justify-content: center;
@@ -427,7 +478,7 @@ export default {
      left: 50%;
      transform: translate(-50%,-50%);
      width: 80%;
-     height: 60%;
+     max-height: 60%;
      overflow-y: auto;
      .yh-p{
     white-space: nowrap;
@@ -435,6 +486,9 @@ export default {
     overflow: hidden;
      }
     }
+  }
+  .active{
+    color: #00C98C;
   }
 }
 </style>

@@ -100,8 +100,10 @@ export default {
   },
   created() {
   
-    this.gender=this.$route.params.gender;
-    this.major=this.$route.params.major,
+    // this.gender=this.$route.params.gender;
+    // this.major=this.$route.params.major,
+    console.log( this.gender)
+    console.log(this.major)
     console.log(this.mins);
     //  this.getclylist(this.gender, this.type, this.major, minor = "", start = 0, limit = 20)
 
@@ -137,7 +139,6 @@ export default {
         this.clylist = res.data.books;
         // console.log(this.clylist);
       });
-
     },
     // 加载更多
     loadBottom() {
@@ -153,7 +154,6 @@ bookclyinfo(this.gender, this.type, this.major, this.minor,this.start * 15, 15).
 
         //      instance.close();
         // },350);
-
         this.start++;
     }
 }

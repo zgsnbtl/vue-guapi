@@ -36,7 +36,7 @@ export default {
 	          }
 	},
     watch:{
-        '$router':'getpl'
+        '$route':'loadMore'
     },
     computed:{
      imgUrl() {
@@ -46,7 +46,6 @@ export default {
     created(){
        this.loadMore()
     },
-    props:["plid"],
     methods:{
  loadMore(){
      bookpl(this.$route.params.id,this.limit).then(res => {

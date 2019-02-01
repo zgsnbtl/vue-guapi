@@ -1,5 +1,5 @@
 <template>
-  <div class="book">
+  <div ref="books" class="book">
     <ul class="mui-table-view">
       <li class="mui-table-view-cell mui-media">
         <a href="javascript:;" class>
@@ -67,9 +67,9 @@
       </router-link> -->
     </div>
     <!-- 评论 -->
-    <pinglun :plid="books._id"></pinglun>
+    <pinglun></pinglun>
     <!-- 同类推荐 -->
-    <recommend :recommentlist="recommentlist" :recid="books._id"></recommend>
+    <recommend @book-top='topshow' :recid="books._id"></recommend>
   </div>
 </template>
 <script>
@@ -111,9 +111,6 @@ export default {
 			headtype: BOOK_PAGE
 		});
     this.getlist();
-    // this.getbook(this.$route.params.id);
-    this.getcommend(this.$route.params.id);
-    // this.getmulu();
   },
   computed: {
     wordCount() {
@@ -127,15 +124,9 @@ export default {
         : this.books.latelyFollower;
     }
   },
-  // watch:{
-  //   $route:function(){
-  //      bookrecommend(this.books._id).then(res => {
-  //     if (res.status === 200) {
-  //       this.recommentlist = res.data.books;
-  //     }
-  //   });
-  //   }
-  // },
+  watch:{
+    '$route.params':'getlist'
+  },
   methods: {
     ...mapMutations([
       'SET_HEADER_INFO',
@@ -164,16 +155,10 @@ export default {
   //  }
   //     });
   //   },
-// 获取同类推荐
-    getcommend(id){
-      bookrecommend(id).then(res => {
-        // console.log(res.data.books)
-      if (res.status === 200) {
-        this.recommentlist = res.data.books;
-        // console.log(this.recommentlist)
-      }
-    });
-    },
+topshow(){
+  this.$refs.books.scrollTop=0;
+  console.log('123')
+},
     imguRl(arr) {
       arr.cover = unescape(arr.cover);
       arr.cover = arr.cover.replace("/agent/", "");
