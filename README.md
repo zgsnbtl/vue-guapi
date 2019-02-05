@@ -7,12 +7,12 @@ vue vue-cli3 vue-router vuex es6 webpack axios sass mint-ui nui javaScript
 
 ### 源码地址
 ```
-[源码地址:https://github.com/zgsnbtl/vue-guapi](https://github.com/zgsnbtl/vue-guapi)
+-[源码地址:https://github.com/zgsnbtl/vue-guapi](https://github.com/zgsnbtl/vue-guapi)
 ```
 
 ### 访问地址
 ```
-[访问地址: 39.96.55.152](http://39.96.55.152)
+-[访问地址: 39.96.55.152](http://39.96.55.152)
 ```
 
 ### 第三方接口跨域在本地vue-cli3脚手架中的vue.config.js中配置如下代码
@@ -65,14 +65,14 @@ location / {
         }
 
 ### 截图
-(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q1.png)
-(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q2.png)
-(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q3.png)
-(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q4.png)
-(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q5.png)
-(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q6.png)
-(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q7.png)
-(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q8.png)
-(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q9.png)
+!(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q1.png)
+!(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q2.png)
+!(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q3.png)
+!(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q4.png)
+!(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q5.png)
+!(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q6.png)
+!(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q7.png)
+!(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q8.png)
+!(https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q9.png)
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
