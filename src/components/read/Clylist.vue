@@ -95,16 +95,12 @@ export default {
     const headerheight=this.appref.header.$el.offsetHeight;
     const tabbarheight=this.appref.tabbar.$el.offsetHeight;
     this.boxheight=document.documentElement.clientHeight  - tabbarheight +'px';
-    console.log( this.boxheight)
  
   },
   created() {
   
     // this.gender=this.$route.params.gender;
     // this.major=this.$route.params.major,
-    console.log( this.gender)
-    console.log(this.major)
-    console.log(this.mins);
     //  this.getclylist(this.gender, this.type, this.major, minor = "", start = 0, limit = 20)
   },
   methods: {
@@ -136,7 +132,6 @@ export default {
     getclylist(gender, type, major, minor = "", start = 0, limit = 20) {
       bookclyinfo(gender, type, major, minor, start, limit).then(res => {
         this.clylist = res.data.books;
-        // console.log(this.clylist);
       });
     },
     // 加载更多
@@ -182,7 +177,6 @@ this.$refs.loadmore.onBottomLoaded()
             if (item.mins.length > 0) {
               vm.mins.unshift("全部");
             }
-            console.log(vm.mins);
           }
         });
       });

@@ -4,9 +4,9 @@
   <div @click="getback" v-show="flag" slot="left">
     <mt-button icon="back">返回</mt-button>
   </div>
-  <mt-button slot="right">
+  <mt-button @click="getuser" slot="right">
     <svg class="icon" aria-hidden="true">
-  <use xlink:href="#icon-shudan"></use>
+  <use xlink:href="#icon-yonghu1"></use>
 </svg>
   </mt-button>
 </mt-header>
@@ -45,13 +45,19 @@
     </router-link>
   </mt-tab-item>
 </mt-tabbar>
+
 <keep-alive>
+  <transition>
 <router-view v-if="$route.meta.keepAlive" :appref="$refs" @fangfa="show"></router-view>
+	</transition>
 </keep-alive>
+  <transition>
 <router-view v-if="!$route.meta.keepAlive" :appref="$refs" @fangfa="show"></router-view>
+	</transition>
   </div>
 </template>
 <script>
+import './font/fonts-user'
 export default {
   data () {
     return {
@@ -70,6 +76,9 @@ export default {
     },
     show(data){
       this.fag=data;
+    },
+    getuser(){
+      this.$router.push({name:'user'})
     }
   },
   // watch:{
@@ -112,6 +121,19 @@ background-color: #fff;
   h1{
     font-size: 12px;
   }
+}
+// 动画
+.v-enter{
+opacity: 0;	
+transform: translateX(100%);
+}
+.v-leave-to{
+	opacity: 0;
+	transform: translateX(-100%);
+position: absolute;
+}
+.v-enter-active,.v-leave-active{
+transition: all .3s ease;
 }
 }
 

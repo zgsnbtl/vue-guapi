@@ -70,7 +70,6 @@ export default {
     const headerheight=this.appref.header.$el.offsetHeight
     const tabbarheight=this.appref.tabbar.$el.offsetHeight
     this.boxheight=document.documentElement.clientHeight  - tabbarheight +'px';
-    console.log( this.boxheight)
     },
     created(){
         this.getrank()
@@ -79,9 +78,7 @@ export default {
      'rankId':function(){
          this.bookList = [];
          bookranks(this.rankId).then(res=>{
-        //   console.log(res);
         this.bookList=res.data.ranking.books.slice(0,15);
-        // console.log(    this.bookList);
          })
      }
     },
@@ -90,16 +87,13 @@ export default {
         loadBottom(){
             this.allLoaded = true;
             bookranks(this.rankId).then(res=>{
-        //   console.log(res);
         this.bookList=res.data.ranking.books.slice(0,this.count*15+15);
         this.count++
            this.allLoaded = false;
-        // console.log(    this.bookList);
          })
         },
     getrank(){
         bookrank().then(res=>{
-            console.log(res.data)
           if(res.data.ok){
               this.femaleRank=res.data.female;
               this.maleRank=res.data.male;
@@ -116,7 +110,6 @@ export default {
         }else if(ranktit==='female'){
            this.ranktit= ranktit;
             this.rankId=this.femaleRank[0]._id;
-            console.log(this.rankId)
         }
     },
     getrankid(id){

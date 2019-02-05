@@ -19,8 +19,8 @@
         </span>
       </div>
       <div class="paixu"></div>
-      <ul class="mui-table-view" v-for="(item,i) in zjlist" :key="item.id">
-        <li @click="getmulu(i)" class="mui-table-view-cell">{{item.title}}</li>
+      <ul class="mvlu-ul" v-for="(item) in zjlist" :key="item.id">
+        <li @click="getmulu((item.order-1))">{{item.title}}</li>
       </ul>
     </div>
   </div>
@@ -28,7 +28,6 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import { book, bookmulu } from "../api/api.js";
-import mumluz from "../sub/Muluz";
 import { Toast } from "mint-ui";
 export default {
   data() {
@@ -37,14 +36,14 @@ export default {
       bookid: this.id,
       booksid: null,
       flag: true,
-      title: {}
+      title: {},
+      aa:''
     };
   },
   computed: {
     ...mapState(["calbook"])
   },
   props: ["id"],
-  components: { mumluz },
   created() {
     this.getmvlu();
     this.title = JSON.parse(window.localStorage.getItem("SHEFLBOOK")) || {};
@@ -66,7 +65,6 @@ export default {
         bookmulu(this.aa._id).then(res => {
           this.zjlist = res.data.chapters;
           this.booksid = res.data._id;
-          console.log(this.booksid);
         });
       });
     },
@@ -77,20 +75,6 @@ export default {
     },
     getmulu(i) {
       this.$emit("readshow", i);
-      //  this.$router.push({name:'read',params:{link,id}});
-      //              var carbook = JSON.parse(window.localStorage.getItem('book'))
-      //              carbook[this.calbook._id] = {
-      //             cover: this.calbook.cover,
-      //             flag:!this.flag,
-      //             title: this.calbook.title,
-      //             lastChapter:this.calbook.lastChapter,
-      //             id: this.calbook._id,
-      //             author:this.calbook.author,
-      //             chapterIndexCache: i,
-      //             bookSource: 0,
-      //             pageIndexCache: 0,
-      //           };
-      //  window.localStorage.setItem('book', JSON.stringify(carbook))
     }
   }
 };
@@ -102,11 +86,21 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
+  width: 100%;
+    height: 100%;
   overflow-y: auto;
   z-index: 9999;
   background-color: #fff;
   // transform: translateX(-100%);
   // transition: transform .15s;
+  .mvlu-ul{
+    line-height: 24px;
+    margin-left: 10px;
+    li{
+      line-height: 40px;
+      border-bottom: 1px solid #c8c7cc;;
+    }
+  }
   li {
     font-size: 13px;
     color: #333;

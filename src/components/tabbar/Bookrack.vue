@@ -39,8 +39,6 @@ export default {
   },
   created() {
     this.getbook();
-    console.log(this.calbook);
-    console.log(this.books);
   },
   methods: {
     ...mapMutations([
@@ -62,21 +60,6 @@ export default {
           window.location.reload() 
 })
    },
-  //  imguRl(arr) {
-  //     arr.cover = unescape(arr.cover);
-  //     arr.cover = arr.cover.replace("/agent/", "");
-  //     return arr;
-  //   },
-  //  getlist(id) {
-  //       console.log(id)
-  //     this.$axios.get("/api/book/"+id).then(res => {
-  //       if (res.status === 200) {
-  //         this.bookstit = this.imguRl(res.data);
-  //         this.SET_BOOK(this.bookstit)
-  //       }
-  //       console.log(this.bookstit)
-  //     });
-  //   },
   }
 }
 </script>

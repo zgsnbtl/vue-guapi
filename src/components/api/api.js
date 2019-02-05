@@ -27,6 +27,10 @@ export function bookList(id, st = 1, size = 10) {
     size: size
   })
 }
+// 书籍信息
+export function books(id) {
+  return axios.get(`/api/book/${id}`)
+}
 // 评论
 export function bookpl(id, limit) {
   return axios.get(`/api/post/review/best-by-book?book=${id}&limit=${limit}`)

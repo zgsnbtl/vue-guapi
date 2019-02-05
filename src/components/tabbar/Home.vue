@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import '../../font/fonts-user'
 import search from '../sub/search'
 export default {
   data() {
@@ -68,7 +69,6 @@ this.getbook()
           //  console.log(res)
            if(res.data.ok){
              this.booklunbo=res.data.data.slice(1, 5)
-               console.log("00000"+this.booklunbo)
            }
         });
       },

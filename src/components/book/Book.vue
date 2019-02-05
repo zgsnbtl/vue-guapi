@@ -74,6 +74,7 @@
 </template>
 <script>
 import { mapState,mapMutations } from 'vuex'
+import { books } from '../api/api.js'
 import { BOOK_PAGE } from '../store/mutationsType.js'
 import { formatDate } from "../time/time.js";
 import yuedu from "../sub/Yuedu";
@@ -109,7 +110,7 @@ export default {
     this.SET_HEADER_INFO({
 			headtitle: '同类推荐',
 			headtype: BOOK_PAGE
-		});
+    });
     this.getlist();
   },
   computed: {
@@ -134,27 +135,13 @@ export default {
 		]),
     getlist() {
       Toast('加载中');
-      this.$axios.get("/api/book/" + this.$route.params.id).then(res => {
+      books(this.$route.params.id).then(res => {
         if (res.status === 200) {
           this.books = this.imguRl(res.data);
           this.SET_BOOK(this.books)
         }
       });
     },
-  //   getbook(id) {
-  //     // 根据书籍信息id获取目录
-  //     var list = [];
-  //     //    书籍信息
-  //     book(id).then(res => {
-  //           //  console.log(res);
-  //  for (let i = 0; i < res.data.length; i++) {          
-  //       list.push(res.data[i]._id);
-  //       this.aa =list[0];
-  //               // console.log( this.aa);
-  //       // this.getmulu(this.aa)
-  //  }
-  //   });
-  //   },
 topshow(){
   this.$refs.books.scrollTop=0;
   console.log('123')
@@ -180,6 +167,8 @@ topshow(){
 </script>
 <style lang="scss" scoped>
 .book {
+  position: relative;
+  top: 0;
   .mui-table-view {
     .mui-media-body {
       font-size: 14px;

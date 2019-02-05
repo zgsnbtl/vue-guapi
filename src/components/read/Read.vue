@@ -35,6 +35,7 @@
     <!-- </div> -->
     <div class="btn">
        <mt-button type="danger" size="small" @click.stop="before" plain>阅读上一章</mt-button>
+       <div style="margin:0px 10px;"></div>
       <mt-button type="danger" size="small" @click.stop="page" plain>阅读下一章</mt-button>
     </div>
     <div class="read-hy" @click="gethuanyuan" v-show="datahy">
@@ -52,7 +53,7 @@
 			</div>
       </div>
       <!-- 目录 -->
-<mulu :id="id" v-show="show" @readshow='readshows'></mulu>
+<mulu :id="id" v-show="show" :booktitle='booktitle' @readshow='readshows'></mulu>
   </div>
 </template>
 <script>
@@ -109,19 +110,18 @@ export default {
     'route':'getbookhy'
   },
   created() {
-    this.getfonts = JSON.parse(window.localStorage.getItem("BOOK_USERFONT"))||12;
-    this.getcolor = JSON.parse(window.localStorage.getItem("BOOK_USERCOLOR")||'{}');
-    this.getBook = JSON.parse(window.localStorage.getItem("SHEFLBOOK"));
-    this.getshujia = JSON.parse(window.localStorage.getItem("BOOK_UPDATE"));
-    console.log(this.id);
-    this.getmulu(this.id);
-    this.getcontent(this.link);
+    this.getfonts = JSON.parse(window.localStorage.getItem("BOOK_USERFONT"))||14; //字体
+    this.getcolor = JSON.parse(window.localStorage.getItem("BOOK_USERCOLOR")||'{}'); //背景颜色
+    this.getBook = JSON.parse(window.localStorage.getItem("SHEFLBOOK")); // 书籍信息
+    this.getshujia = JSON.parse(window.localStorage.getItem("BOOK_UPDATE")); //是否加入书架
+    // this.getmulu(this.$route.params.id);
+    // this.getcontent();
+    console.log(this.booktitle)
     this.getread(false);
     this.getbookhy(this.getBook._id) // 换源
     if(this.$route.params.show){
       this.show=true
     }
-          console.log(this.shuajiabook)
   },
   methods: {
     ...mapMutations({
@@ -205,11 +205,10 @@ export default {
     // 目录显示隐藏 切换  
     readshows(data){
       this.show=false;
-      console.log('asd')
       this.iss=data
       this.getBookindex();
-       this.getcontent(this.booklinkss[this.iss]);
-         this.$refs.dvtop.scrollTop=0;
+      this.getcontent(this.booklinkss[this.iss]);
+      this.$refs.dvtop.scrollTop=0;
     },
     getmulushow(){
       this.show=!this.show
@@ -220,22 +219,19 @@ export default {
      this.booktitle=[] //push后数据叠加 现将数组数据清空
      var bookindexs = JSON.parse(window.localStorage.getItem("bookindex") || "{}");//章节位置
       var carbook = JSON.parse(window.localStorage.getItem("book"));
-      console.log(this.getBook);
       // var booklinks = [];
       bookmulu(id).then(res => {
-          console.log(res)
         //   将目录中的标题和链接拿出来
         res.data.chapters.forEach(item => {
           // this.booklinkss.splice(0,item.link.length);
           this.booklinkss.push(encodeURIComponent(item.link));
           this.booktitle.push(item.title);
+          // console.log(this.booklinkss)
         });
-          console.log(bookindexs)
         this.iss =
           bookindexs && bookindexs[this.getBook._id]
             ? bookindexs[this.getBook._id].bookindex
             : this.iss;
-            console.log(this.iss)
         this.getcontent(this.booklinkss[this.iss]);
       });
     },
@@ -265,30 +261,13 @@ export default {
     before(){
        this.$refs.dvtop.scrollTop=0;
          // 缓存章节数据
-        //  var carbook = JSON.parse(window.localStorage.getItem("book") || "{}");
-        //  this.iss<=0?0:this.iss-=1;
          if(this.iss<=0){
            this.iss=0
             Toast('已经是第一章了')
          }else{
            this.iss--
          }
-         bookindex[this.getBook._id]={
-       bookindex:this.iss
-     }
-      //   carbook[this.getBook._id] = {
-      //   cover: this.getBook.cover,
-      //   flag: !this.flag,
-      //   title: this.getBook.title,
-      //   lastChapter: this.getBook.lastChapter,
-      //   id: this.getBook._id,
-      //   author: this.getBook.author,
-      //   chapterIndexCache: this.iss,
-      //   bookSource: 0,
-      //   pageIndexCache: 0
-      // };
       this.getBookindex();
-      // window.localStorage.setItem("book", JSON.stringify(carbook));
        this.getmulu(this.bookhylist[this.hyindex]._id);
     },
     // 点击加载下一章
@@ -304,7 +283,6 @@ export default {
       }
       this.getBookindex()
       this.getmulu(this.bookhylist[this.hyindex]._id);
-      console.log(this.getmulu);
     },
     getshow() {
       this.datashow = !this.datashow;
@@ -340,14 +318,12 @@ export default {
     getbookhy(id){
       bookhy(id).then(res=>{
         this.bookhylist=res.data
-        console.log(this.bookhylist)
          this.getmulu(this.bookhylist[0]._id)
       })
     },
     gethy(item,i){
      this.hyindex=i
      this.getmulu(this.bookhylist[this.hyindex]._id);
-     console.log(this.getmulu)
       this.datahy=!this.datahy
     }
   },
@@ -358,7 +334,6 @@ export default {
           // vm.tryRead();
         }
         vm.getbookhy(vm.getBook._id);
-        console.log(vm.getBook._id)
         // vm.getmulu(vm.$route.params.id);
       })
 
