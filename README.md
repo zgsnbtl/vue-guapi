@@ -8,12 +8,12 @@ vue vue-cli3 vue-router vuex es6 webpack axios sass mint-ui nui javaScript
 
 ## 源码地址
 
-[源码地址:https://github.com/zgsnbtl/vue-guapi](https://github.com/zgsnbtl/vue-guapi)
+[https://github.com/zgsnbtl/vue-guapi](https://github.com/zgsnbtl/vue-guapi)
 
 
 ## 访问地址
 
-[访问地址: 39.96.55.152](http://39.96.55.152)
+[39.96.55.152](http://39.96.55.152)
 
 ### 第三方接口跨域在本地vue-cli3脚手架中的vue.config.js中配置如下代码
 ```
