@@ -47,23 +47,6 @@ baseUrl: './'
 
 ### 部署服务器时使用nginx代理
 
-location / {    
-        root /www/server/nginx/html;
-        index index.html;
-        }    
-                   
-        location /api
-        {
-            rewrite  ^.+api/?(.*)$ /$1 break;
-            include  uwsgi_params;
-            proxy_pass http://api.zhuishushenqi.com/;
-        }
-        
-        location /content/
-        {
-            proxy_pass http://chapter2.zhuishushenqi.com/;
-        }
-
 ### 截图
 ![](https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q1.png)
 ![](https://github.com/zgsnbtl/vue-guapi/blob/master/screenshot/q2.png)
