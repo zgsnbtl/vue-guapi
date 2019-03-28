@@ -66,7 +66,7 @@ export default {
         },
          // 下拉加载
         loadBottom(){
-            this.allLoaded = true;
+           this.allLoaded = true;
            booksearch(this.value).then(res=>{
         //   console.log(res);
         if(this.search.length===res.data.books.length){
