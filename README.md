@@ -3,7 +3,7 @@
 ## 技术栈
 ```
 vue vue-cli3 vue-router vuex es6 webpack axios sass mint-ui javaScript
-觉得不错点个star~·~技术交流添加qq 1635942033
+觉得不错点个star~·~qq 1635942033
 ```
 
 ## 源码地址
