@@ -1,5 +1,7 @@
 # vue-book
 
+代码为实习时初学写的项目可能有些地方不规范见谅~~~
+
 ## 技术栈
 ```
 vue vue-cli3 vue-router vuex es6 webpack axios sass mint-ui javaScript
