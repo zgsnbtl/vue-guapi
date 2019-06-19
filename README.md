@@ -15,7 +15,7 @@ vue vue-cli3 vue-router vuex es6 webpack axios sass mint-ui javaScript
 
 ## 访问地址
 
-[39.96.55.152](http://39.96.55.152)
+[http://wj00.top/book](http://wj00.top/book)
 
 ### 第三方接口跨域在本地vue-cli3脚手架中的vue.config.js中配置如下代码
 ```
