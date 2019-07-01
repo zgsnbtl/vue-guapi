@@ -1,11 +1,11 @@
 # vue-book
 
-代码为实习时初学写的项目
+代码为实习时写的觉得不错点个star~·~ wx and qq => 1635942033
 
 ## 技术栈
 ```
 vue vue-cli3 vue-router vuex es6 webpack axios sass mint-ui javaScript
-觉得不错点个star~·~qq 1635942033
+
 ```
 
 ## 源码地址
