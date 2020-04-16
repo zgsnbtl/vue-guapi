@@ -8,7 +8,10 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+<<<<<<< HEAD
     "axios": "^0.19.2",
+=======
+>>>>>>> 684ecf1d1c5b0e1f4e2fae3ab86d42503616ef05
     "element-ui": "^2.4.11",
     "mint-ui": "^2.2.13",
     "vue": "^2.5.21",
