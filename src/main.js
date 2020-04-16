@@ -22,7 +22,6 @@ Vue.prototype.$axios = axios
 Vue.prototype.mui = mui
 Vue.component('fen-lei', fenlei)
 Vue.component('mei-wen', meiwen)
-// Vue.use(ElementUI)
 Vue.use(Mint)
 Vue.config.productionTip = false
 
