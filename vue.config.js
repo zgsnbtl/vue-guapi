@@ -5,7 +5,7 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       '/api': {
-        target: 'http://ctzl.top/api',
+        target: 'http://www.hyckr.com/api',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
@@ -13,7 +13,7 @@ module.exports = {
         }
       },
       '/content': {
-        target: 'http://chapter2.zhuishushenqi.com',
+        target: 'http://www.hyckr.com/content',
         changeOrigin: true,
         ws: true,
         pathRewrite: {

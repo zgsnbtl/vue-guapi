@@ -13,7 +13,7 @@ export function bookmulu(id) {
 }
 // 获取章节内容
 export function bookcontent(link) {
-  return axios.get(`/content/chapter/${link}`)
+  return axios.get(`/content/chapter2/${link}`)
 }
 // 首页书籍
 export function bootd(id) {
