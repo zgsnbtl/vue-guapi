@@ -5,7 +5,7 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       '/api': {
-        target: 'http://www.hyckr.com/api',
+        target: 'http://www.api.zhuishushenqi.com',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
