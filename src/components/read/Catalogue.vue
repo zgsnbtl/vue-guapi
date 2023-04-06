@@ -20,7 +20,7 @@
       </div>
       <div class="paixu"></div>
       <ul class="mvlu-ul" v-for="item in zjlist" :key="item.id">
-        <li @click="getmulu(item.order - 1)">{{ item.title }}</li>
+        <li @click="getCatalogue(item.order - 1)">{{ item.title }}</li>
       </ul>
     </div>
   </div>
@@ -75,7 +75,7 @@ export default {
       this.flag = !this.flag;
       this.zjlist.reverse();
     },
-    getmulu(i) {
+    getCatalogue(i) {
       this.$emit("readShow", i);
     },
   },

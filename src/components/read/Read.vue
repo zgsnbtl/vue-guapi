@@ -153,7 +153,7 @@ export default {
     ); //背景颜色
     this.getBook = JSON.parse(window.localStorage.getItem("SHEFLBOOK")); // 书籍信息
     this.isBookrack = JSON.parse(window.localStorage.getItem("BOOK_UPDATE")); //是否加入书架
-    // this.getmulu(this.$route.params.id);
+    // this.getCatalogue(this.$route.params.id);
     // this.getcontent();
     console.log(this.bookTitle);
     this.getRead(false);
@@ -256,7 +256,7 @@ export default {
     getIsBookrack() {
       this.show = !this.show;
     },
-    getmulu(id) {
+    getCatalogue(id) {
       //  目录
       this.bookLink = [];
       this.bookTitle = []; //push后数据叠加 现将数组数据清空
@@ -314,7 +314,7 @@ export default {
         this.iss--;
       }
       this.setBookIndex();
-      this.getmulu(this.bookHyList[this.hyIndex]._id);
+      this.getCatalogue(this.bookHyList[this.hyIndex]._id);
     },
     // 点击加载下一章
     page() {
@@ -327,7 +327,7 @@ export default {
         this.iss++;
       }
       this.setBookIndex();
-      this.getmulu(this.bookHyList[this.hyIndex]._id);
+      this.getCatalogue(this.bookHyList[this.hyIndex]._id);
     },
     getShow() {
       this.dataShow = !this.dataShow;
@@ -363,12 +363,12 @@ export default {
     getBookHy(id) {
       bookHy(id).then((res) => {
         this.bookHyList = res.data;
-        this.getmulu(this.bookHyList[0]._id);
+        this.getCatalogue(this.bookHyList[0]._id);
       });
     },
     getHy(item, i) {
       this.hyIndex = i;
-      this.getmulu(this.bookHyList[this.hyIndex]._id);
+      this.getCatalogue(this.bookHyList[this.hyIndex]._id);
       this.dataHy = !this.dataHy;
     },
   },
@@ -379,7 +379,7 @@ export default {
         // vm.tryRead();
       }
       vm.getBookHy(vm.getBook._id);
-      // vm.getmulu(vm.$route.params.id);
+      // vm.getCatalogue(vm.$route.params.id);
     });
   },
 };
