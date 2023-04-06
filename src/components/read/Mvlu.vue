@@ -45,6 +45,7 @@ export default {
   },
   props: ["id"],
   created() {
+    console.log('???????????????')
     this.getmvlu();
     this.title = JSON.parse(window.localStorage.getItem("SHEFLBOOK")) || {};
   },
@@ -63,6 +64,7 @@ export default {
         this.aa = list[0].data[0];
         //  目录
         bookmulu(this.aa._id).then(res => {
+          console.log('res.data.chapters--------',res.data.chapters)
           this.zjlist = res.data.chapters;
           this.booksid = res.data._id;
         });

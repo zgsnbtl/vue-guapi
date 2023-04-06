@@ -12,8 +12,16 @@ module.exports = {
           '^/api': ''
         }
       },
+      '/bookApi': {
+        target: 'http://bookapi03.zhuishushenqi.com',
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/bookApi': ''
+        }
+      },
       '/content': {
-        target: 'http://www.hyckr.com/content',
+        target: 'http://chapter3.zhuishushenqi.com/chapter2',
         changeOrigin: true,
         ws: true,
         pathRewrite: {

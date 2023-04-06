@@ -5,15 +5,15 @@ import axios from 'axios'
 // }
 // 书籍信息
 export function book(id) {
-  return axios.get(`/api/btoc?view=summary&book=${id}`)
+  return axios.get(`/bookApi/btoc?view=summary&book=${id}`)
 }
 // 获取目录列表
 export function bookmulu(id) {
-  return axios.get(`/api/btoc/${id}?view=chapters&channel=mweb`)
+  return axios.get(`/bookApi/btoc/${id}?view=chapters&channel=mweb`)
 }
 // 获取章节内容
 export function bookcontent(link) {
-  return axios.get(`/content/chapter/${link}`)
+  return axios.get(`/content/${link}`)
 }
 // 首页书籍
 export function bootd(id) {
