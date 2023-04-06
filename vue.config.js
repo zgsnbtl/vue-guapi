@@ -12,21 +12,15 @@ module.exports = {
           '^/api': ''
         }
       },
-      '/bookApi': {
+      '/btoc': {
         target: 'http://bookapi03.zhuishushenqi.com',
         ws: true,
         changeOrigin: true,
-        pathRewrite: {
-          '^/bookApi': ''
-        }
       },
-      '/content': {
-        target: 'http://chapter3.zhuishushenqi.com/chapter2',
+      '/chapter2': {
+        target: 'http://chapter3.zhuishushenqi.com',
         changeOrigin: true,
         ws: true,
-        pathRewrite: {
-          '^/content': ''
-        }
       }
     }
   }

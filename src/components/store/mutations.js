@@ -2,31 +2,31 @@ import {
   SET_HEADER_INFO,
   SET_BOOK,
   BOOK_UPDATE,
-  BOOK_USERCOLOR,
-  BOOK_USERFONT
+  BOOK_userColor,
+  BOOK_userFonts
 } from './mutationsType'
 import {
   setStore
 } from './const'
 export default {
   [SET_HEADER_INFO](state, header) {
-    state.header.headtype = header.headtype
-    state.header.headtitle = header.headtitle
+    state.header.headType = header.headType
+    state.header.headTitle = header.headTitle
   },
   [SET_BOOK](state, book) {
-    state.calbook = book
-    setStore('SHEFLBOOK', state.calbook)
+    state.calBook = book
+    setStore('SHEFLBOOK', state.calBook)
   },
   [BOOK_UPDATE](state, books) {
-    state.shuajiabook = books
-    setStore('BOOK_UPDATE', state.shuajiabook)
+    state.bookrack = books
+    setStore('BOOK_UPDATE', state.bookrack)
   },
-  [BOOK_USERCOLOR](state, usercolor) {
-    state.usercolor = usercolor
-    setStore('BOOK_USERCOLOR', state.usercolor)
+  [BOOK_userColor](state, userColor) {
+    state.userColor = userColor
+    setStore('BOOK_userColor', state.userColor)
   },
-  [BOOK_USERFONT](state, userfont) {
-    state.userfont = userfont
-    setStore('BOOK_USERFONT', state.userfont)
+  [BOOK_userFonts](state, userFonts) {
+    state.userFonts = userFonts
+    setStore('BOOK_userFonts', state.userFonts)
   }
 }

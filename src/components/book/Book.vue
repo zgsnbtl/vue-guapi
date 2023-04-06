@@ -3,22 +3,22 @@
     <ul class="mui-table-view">
       <li class="mui-table-view-cell mui-media">
         <a href="javascript:;" class>
-          <img class="mui-media-object mui-pull-left" :src="books.cover">
+          <img class="mui-media-object mui-pull-left" :src="books.cover" />
           <div class="mui-media-body">
-            {{books.title}}
+            {{ books.title }}
             <p class="mui-ellipsis">
-              <span>{{books.author}}</span>
-              <span class="span2">{{books.cat}}</span>
-              <span>{{wordCount}}字</span>
+              <span>{{ books.author }}</span>
+              <span class="span2">{{ books.cat }}</span>
+              <span>{{ wordCount }}字</span>
             </p>
             <p>
-              <span>{{books.isSerial?'连载中':'完结'}}</span>
-              <span>{{books.minorCateV2}}</span>
+              <span>{{ books.isSerial ? "连载中" : "完结" }}</span>
+              <span>{{ books.minorCateV2 }}</span>
             </p>
           </div>
         </a>
         <!-- 加入书架阅读 -->
-        <yuedu :booklinks="this.books._id"></yuedu>
+        <reader :booklinks="this.books._id"></reader>
       </li>
     </ul>
 
@@ -28,7 +28,7 @@
           <p>追人气</p>
         </div>
         <div class="mui-media-body">
-          <p class="body-p">{{latelyFollower}}</p>
+          <p class="body-p">{{ latelyFollower }}</p>
         </div>
       </li>
       <li class="mui-table-view-cell mui-media mui-col-xs-4">
@@ -36,7 +36,7 @@
           <p>读者留存率</p>
         </div>
         <div class="mui-media-body">
-          <p class="body-p">{{books.retentionRatio}}%</p>
+          <p class="body-p">{{ books.retentionRatio }}%</p>
         </div>
       </li>
       <li class="mui-table-view-cell mui-media mui-col-xs-4">
@@ -44,21 +44,25 @@
           <p>日更新字数/天</p>
         </div>
         <div class="mui-media-body">
-          <p class="body-p">{{books.serializeWordCount}}</p>
+          <p class="body-p">{{ books.serializeWordCount }}</p>
         </div>
       </li>
     </ul>
     <!--  -->
     <div class="long" @click="el">
-      <p class="pop" ref="pl">{{books.longIntro}}</p>
+      <p class="pop" ref="pl">{{ books.longIntro }}</p>
       <span ref="span" :flag="flag" class="mui-icon mui-icon-arrowdown"></span>
     </div>
     <!-- 目录 -->
     <div>
-       <router-link :to="{name:'read',params:{id:this.books._id,show:true}}" class="mulu" tag="p">
+      <router-link
+        :to="{ name: 'read', params: { id: this.books._id, show: true } }"
+        class="mulu"
+        tag="p"
+      >
         <span>目录</span>
         <span>{{ books.updated | formatDate }}</span>
-        <span>{{books.lastChapter}}</span>
+        <span>{{ books.lastChapter }}</span>
       </router-link>
       <!-- <router-link :to="{name:'mvlu',params:{id:this.books._id}}" class="mulu" tag="p">
         <span>目录</span>
@@ -67,21 +71,21 @@
       </router-link> -->
     </div>
     <!-- 评论 -->
-    <pinglun></pinglun>
+    <comment></comment>
     <!-- 同类推荐 -->
-    <recommend @book-top='topshow' :recid="books._id"></recommend>
+    <recommend @book-top="topShow" :recId="books._id"></recommend>
   </div>
 </template>
 <script>
-import { mapState,mapMutations } from 'vuex'
-import { books } from '../api/api.js'
-import { BOOK_PAGE } from '../store/mutationsType.js'
+import { mapState, mapMutations } from "vuex";
+import { books } from "../api/api.js";
+import { BOOK_PAGE } from "../store/mutationsType.js";
 import { formatDate } from "../time/time.js";
-import yuedu from "../sub/Yuedu";
-import pinglun from "../sub/Pinglun";
-import { book, bookmulu,bookrecommend } from "../api/api.js";
-import { Toast } from 'mint-ui';
-import recommend from '../sub/Recommend'
+import reader from "../sub/reader";
+import comment from "../sub/comment";
+import { book, bookCatalogue, bookRecommend } from "../api/api.js";
+import { Toast } from "mint-ui";
+import recommend from "../sub/Recommend";
 export default {
   data() {
     return {
@@ -89,29 +93,29 @@ export default {
       flag: true,
       limit: 5,
       // zjlist: {},
-      aa:'',
-      booklinks:[],
-      booktitle:[],
-      recommentlist:[]
+      aa: "",
+      booklinks: [],
+      bookTitle: [],
+      commentList: [],
     };
   },
   components: {
-    pinglun,
-    yuedu,
-    recommend
+    comment,
+    reader,
+    recommend,
   },
   filters: {
     formatDate(time) {
       var date = new Date(time);
       return formatDate(date, "yyyy-MM-dd hh:mm");
-    }
+    },
   },
   created() {
     this.SET_HEADER_INFO({
-			headtitle: '同类推荐',
-			headtype: BOOK_PAGE
+      headTitle: "同类推荐",
+      headType: BOOK_PAGE,
     });
-    this.getlist();
+    this.getList();
   },
   computed: {
     wordCount() {
@@ -123,30 +127,27 @@ export default {
       return this.books.latelyFollower > 1000
         ? parseInt(this.books.latelyFollower / 1000) + "k"
         : this.books.latelyFollower;
-    }
+    },
   },
-  watch:{
-    '$route.params':'getlist'
+  watch: {
+    "$route.params": "getList",
   },
   methods: {
-    ...mapMutations([
-      'SET_HEADER_INFO',
-      'SET_BOOK'
-		]),
-    getlist() {
-      Toast('加载中');
-      books(this.$route.params.id).then(res => {
+    ...mapMutations(["SET_HEADER_INFO", "SET_BOOK"]),
+    getList() {
+      Toast("加载中");
+      books(this.$route.params.id).then((res) => {
         if (res.status === 200) {
-          this.books = this.imguRl(res.data);
-          this.SET_BOOK(this.books)
+          this.books = this.imgUrl(res.data);
+          this.SET_BOOK(this.books);
         }
       });
     },
-topshow(){
-  this.$refs.books.scrollTop=0;
-  console.log('123')
-},
-    imguRl(arr) {
+    topShow() {
+      this.$refs.books.scrollTop = 0;
+      console.log("123");
+    },
+    imgUrl(arr) {
       arr.cover = unescape(arr.cover);
       arr.cover = arr.cover.replace("/agent/", "");
       return arr;
@@ -161,8 +162,8 @@ topshow(){
         this.$refs.span.className = "mui-icon mui-icon-arrowdown";
         this.flag = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

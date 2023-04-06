@@ -1,24 +1,46 @@
 <template>
   <div class="fenlei">
-    <!-- <h1>{{booklistid._id}}</h1> -->
+    <!-- <h1>{{bookListId._id}}</h1> -->
     <ul
-      v-for="item in booklist"
+      v-for="item in bookList"
       :key="item.id"
-      class="mui-table-view mui-table-view-striped mui-table-view-condensed">
-      <router-link :to="{name:'book',params:{id:item._id}}" class="mui-table-view-cell" tag="li">
+      class="mui-table-view mui-table-view-striped mui-table-view-condensed"
+    >
+      <router-link
+        :to="{ name: 'book', params: { id: item._id } }"
+        class="mui-table-view-cell"
+        tag="li"
+      >
         <div class="mui-table">
           <div class="mui-table-cell mui-col-xs-10">
-            <img class="mui-media-object mui-pull-left" :src="item.cover|getcover" alt>
-            <h4 class="mui-ellipsis"><span>{{item.title}}</span><span v-if="item.wordCount" class="wordCount">{{item.wordCount|getcound}}字</span></h4>
-            <div class="cunliu"><h5>{{item.author}}</h5><h5>{{item.retentionRatio}}%读者存留</h5></div>
-            <p class="mui-h6 mss">{{item.shortIntro}}</p>
+            <img
+              class="mui-media-object mui-pull-left"
+              :src="item.cover | getCover"
+              alt
+            />
+            <h4 class="mui-ellipsis">
+              <span>{{ item.title }}</span
+              ><span v-if="item.wordCount" class="wordCount"
+                >{{ item.wordCount | getCount }}字</span
+              >
+            </h4>
+            <div class="cunliu">
+              <h5>{{ item.author }}</h5>
+              <h5>{{ item.retentionRatio }}%读者存留</h5>
+            </div>
+            <p class="mui-h6 mss">{{ item.shortIntro }}</p>
           </div>
           <div class="mui-table-cell mui-col-xs-2 mui-text-right">
-            <p class="m-p1">{{item.isSerial?'连载中':'完结'}}</p>
-            <p v-if="item.majorCate" class="m-p2">{{item.majorCate}}</p>
-            <p class="m-p1">{{item.cat||item.minorCate}}</p>
+            <p class="m-p1">{{ item.isSerial ? "连载中" : "完结" }}</p>
+            <p v-if="item.majorCate" class="m-p2">{{ item.majorCate }}</p>
+            <p class="m-p1">{{ item.cat || item.minorCate }}</p>
             <p class="m-p2">
-              <span>{{item.latelyFollower>1000?parseInt(item.latelyFollower/1000)+'k':item.latelyFollower}}</span>人气
+              <span>{{
+                item.latelyFollower > 1000
+                  ? parseInt(item.latelyFollower / 1000) + "k"
+                  : item.latelyFollower
+              }}</span
+              >人气
             </p>
           </div>
         </div>
@@ -27,52 +49,51 @@
   </div>
 </template>
 <script>
-import {coverimg} from "../time/time.js"
+import { coverImg } from "../time/time.js";
 export default {
-    props:['booklist'],
-    filters:{
-      getcover(cover){
-        if(cover.indexOf(coverimg) > -1) {
-                return cover;
-            }
-        return coverimg + cover
-      },
-      getcound(wordCount){
-        return wordCount>10000?parseInt(wordCount/10000)+'万'
-        :wordCount
+  props: ["bookList"],
+  filters: {
+    getCover(cover) {
+      if (cover.indexOf(coverImg) > -1) {
+        return cover;
       }
-    }
-}
+      return coverImg + cover;
+    },
+    getCount(wordCount) {
+      return wordCount > 10000 ? parseInt(wordCount / 10000) + "万" : wordCount;
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 .fenlei {
   margin-top: 10px;
   background-color: #fff;
-  
-  .cunliu{
+
+  .cunliu {
     display: flex;
     justify-content: space-between;
-    :nth-child(1){
-       overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
+    :nth-child(1) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-    :nth-child(2){
-             overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
+    :nth-child(2) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       color: #00c98c;
       padding-right: 5px;
       font-size: 12px;
     }
   }
-  .mui-ellipsis{
+  .mui-ellipsis {
     display: flex;
     justify-content: space-between;
-      .wordCount{
-        font-size: 12px;
-        color: #00c98c;
-        padding-right: 5px;
+    .wordCount {
+      font-size: 12px;
+      color: #00c98c;
+      padding-right: 5px;
     }
   }
 

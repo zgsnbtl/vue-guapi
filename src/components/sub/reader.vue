@@ -1,12 +1,12 @@
 <template>
-  <div class="yuedu">
-    <mt-button type="primary" @click="getbook" size="small" plain>{{flag?'加入书架':'撤出书架'}}</mt-button>
-    <mt-button type="danger" size="small" @click="getyuedu">{{flag?'立即阅读':'继续阅读'}}</mt-button>
+  <div class="reader">
+    <mt-button type="primary" @click="getBook" size="small" plain>{{flag?'加入书架':'撤出书架'}}</mt-button>
+    <mt-button type="danger" size="small" @click="getRead">{{flag?'立即阅读':'继续阅读'}}</mt-button>
   </div>
 </template>
 <script>
 import {mapState,mapMutations} from 'vuex'
-import {chapterContent,bookcontent} from '../api/api.js'
+import {chapterContent,bookContent} from '../api/api.js'
 export default {
     data () {
         return {
@@ -17,7 +17,7 @@ export default {
   
     computed:{
      ...mapState([
-       'calbook','shuajiabook'
+       'calBook','bookrack'
      ])
     },
     watch:{
@@ -25,17 +25,17 @@ export default {
     },
     created(){
       console.log(this.booklinks)
-      // this.calbook
+      // this.calBook
       this.ifFlag()
     },
     methods:{
       ...mapMutations({
-        setbook:'BOOK_UPDATE'
+        setBook:'BOOK_UPDATE'
       }),
-        getyuedu(){
-        //   var book=this.calbook
-        //    var carbook = JSON.parse(window.localStorage.getItem('book')||'{}')
-        //      carbook[book._id] = {
+        getRead(){
+        //   var book=this.calBook
+        //    var carBook = JSON.parse(window.localStorage.getItem('book')||'{}')
+        //      carBook[book._id] = {
         //     cover: book.cover,
         //     flag:!this.flag,
         //     title: book.title,
@@ -46,27 +46,27 @@ export default {
         //     bookSource: 0,
         //     pageIndexCache: 0,
         //   };
-        //  window.localStorage.setItem('book', JSON.stringify(carbook))
+        //  window.localStorage.setItem('book', JSON.stringify(carBook))
        this.$router.push({name:'read',params:{id:this.booklinks}});
         },
 
         ifFlag(){ //判断是否加入书架的处理
-        var carbooks = JSON.parse(window.localStorage.getItem('SHEFLBOOK') || '{}')
-          var carbook = JSON.parse(window.localStorage.getItem('book'))
-          if(carbook && carbook[carbooks._id]){
+        var carBooks = JSON.parse(window.localStorage.getItem('SHEFLBOOK') || '{}')
+          var carBook = JSON.parse(window.localStorage.getItem('book'))
+          if(carBook && carBook[carBooks._id]){
             this.flag=false
-       this.setbook(false)
+       this.setBook(false)
           }else{
             this.flag=true
-       this.setbook(true)
+       this.setBook(true)
           }
         },
-        getbook(){  // 加入书架 并做缓存处理
-          var book= this.calbook;
-          var carbook = JSON.parse(window.localStorage.getItem('book') || '{}')
+        getBook(){  // 加入书架 并做缓存处理
+          var book= this.calBook;
+          var carBook = JSON.parse(window.localStorage.getItem('book') || '{}')
           this.flag=!this.flag
           if(!this.flag){
-        carbook[book._id] = {
+        carBook[book._id] = {
             cover: book.cover,
             flag:!this.flag,
             title: book.title,
@@ -77,23 +77,23 @@ export default {
             bookSource: 0,
             pageIndexCache: 0,
           };
-                     this.setbook(false)
-         window.localStorage.setItem('book', JSON.stringify(carbook))
+                     this.setBook(false)
+         window.localStorage.setItem('book', JSON.stringify(carBook))
 
           }else{ // 移除书架清除缓存
-          delete carbook[book._id]
-                      this.setbook(true)
-             window.localStorage.setItem('book', JSON.stringify(carbook))
+          delete carBook[book._id]
+                      this.setBook(true)
+             window.localStorage.setItem('book', JSON.stringify(carBook))
           }
 
-          // this.booklinks=this.calbook;
+          // this.booklinks=this.calBook;
         //  let localShelf = JSON.parse(window.localStorage.getItem('book')) ? JSON.parse(window.localStorage.getItem('book')) : {};
         }
     }
 }
 </script>
 <style lang="scss" scoped>
-.yuedu {
+.reader {
     .mint-button--primary.is-plain{
     color: #00C98C;
     border: 1px solid #00C98C;

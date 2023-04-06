@@ -1,10 +1,10 @@
 <template>
   <div class="app">
     <mt-header v-if="fag" ref="header" fixed title="你今天真好看！">
-      <div @click="getback" v-show="flag" slot="left">
+      <div @click="getBack" v-show="flag" slot="left">
         <mt-button icon="back">返回</mt-button>
       </div>
-      <mt-button @click="getuser" slot="right">
+      <mt-button @click="getUser" slot="right">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-yonghu1"></use>
         </svg>
@@ -50,16 +50,16 @@
       <transition>
         <router-view
           v-if="$route.meta.keepAlive"
-          :appref="$refs"
-          @fangfa="show"
+          :appRef="$refs"
+          @method="show"
         ></router-view>
       </transition>
     </keep-alive>
     <transition>
       <router-view
         v-if="!$route.meta.keepAlive"
-        :appref="$refs"
-        @fangfa="show"
+        :appRef="$refs"
+        @method="show"
       ></router-view>
     </transition>
   </div>
@@ -71,21 +71,21 @@ export default {
     return {
       flag: true,
       fag: true,
-      boxheight: "",
+      boxHeight: "",
     };
   },
   mounted() {
-    this.boxheight = document.documentElement.clientHeight;
-    console.log(this.boxheight);
+    this.boxHeight = document.documentElement.clientHeight;
+    console.log(this.boxHeight);
   },
   methods: {
-    getback() {
+    getBack() {
       this.$router.go(-1);
     },
     show(data) {
       this.fag = data;
     },
-    getuser() {
+    getUser() {
       this.$router.push({ name: "user" });
     },
   },

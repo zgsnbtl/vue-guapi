@@ -1,24 +1,38 @@
 <template>
   <div class="fenlei">
-    <!-- <h1>{{booklistid._id}}</h1> -->
+    <!-- <h1>{{bookListId._id}}</h1> -->
     <ul
-      v-for="item in booklist"
+      v-for="item in bookList"
       :key="item.id"
-      class="mui-table-view mui-table-view-striped mui-table-view-condensed">
-      <router-link :to="{name:'book',params:{id:item._id}}" class="mui-table-view-cell" tag="li">
+      class="mui-table-view mui-table-view-striped mui-table-view-condensed"
+    >
+      <router-link
+        :to="{ name: 'book', params: { id: item.link } }"
+        class="mui-table-view-cell"
+        tag="li"
+      >
         <div class="mui-table">
           <div class="mui-table-cell mui-col-xs-10">
-            <img class="mui-media-object mui-pull-left" :src="item.cover" alt>
-            <h4 class="mui-ellipsis">{{item.title}}</h4>
-            <h5>{{item.author}}</h5>
-            <p class="mui-h6 mss">{{item.shortIntro}}</p>
+            <img
+              class="mui-media-object mui-pull-left"
+              :src="item.cover || item.img"
+              alt
+            />
+            <h4 class="mui-ellipsis">{{ item.title }}</h4>
+            <h5>{{ item.author }}</h5>
+            <p class="mui-h6 mss">{{ item.shortIntro }}</p>
           </div>
           <div class="mui-table-cell mui-col-xs-2 mui-text-right">
-            <p class="m-p1">{{item.isSerial?'连载中':'完结'}}</p>
-            <p class="m-p2">{{item.majorCate}}</p>
-            <p class="m-p1">{{item.minorCate}}</p>
+            <p class="m-p1">{{ item.isSerial ? "连载中" : "完结" }}</p>
+            <p v-if="item.majorCate" class="m-p2">{{ item.majorCate }}</p>
+            <p v-if="item.minorCate" class="m-p1">{{ item.minorCate }}</p>
             <p class="m-p2">
-              <span>{{item.latelyFollower>1000?parseInt(item.latelyFollower/1000)+'k':item.latelyFollower}}</span>人气
+              <span>{{
+                item.latelyFollower > 1000
+                  ? parseInt(item.latelyFollower / 1000) + "k"
+                  : item.latelyFollower
+              }}</span
+              >人气
             </p>
           </div>
         </div>
@@ -27,32 +41,35 @@
   </div>
 </template>
 <script>
-import {bootd} from '../api/api.js'
+import { bootd, getBanner } from "../api/api.js";
 export default {
   data() {
     return {
-      booklist: []
+      bookList: [],
     };
   },
-  props: ["booklistid"],
+  props: ["bookListId"],
   mounted() {
-    this.getlist(this.booklistid.id);
+    this.getList(this.bookListId.id);
   },
   methods: {
-    getlist(id) {
-      bootd(id).then(res => {
-          var data = res.data.data;
-          if (res.data.ok) {
-            this.booklist = data.map(item => {
-              return item.book;
-            });
-          }
-        });
-    }
+    async getList(id) {
+      // 接口不能用展示banner
+      // bootd(id).then(res => {
+      //     var data = res.data.data;
+      //     if (res.data.ok) {
+      //       this.bookList = data.map(item => {
+      //         return item.book;
+      //       });
+      //     }
+      //   });
+      const data = await getBanner();
+      this.bookList = data.data.data.slice(0, 5);
+    },
   },
   watch: {
-		'booklistid': 'getlist'
-	}
+    bookListId: "getList",
+  },
 };
 </script>
 <style lang="scss" scoped>

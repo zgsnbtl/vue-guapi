@@ -1,12 +1,12 @@
 const state = {
   header: {
-    headtype: '',
-    headtitle: ''
+    headType: '',
+    headTitle: ''
   },
-  calbook: null, // 书籍数据
-  shuajiabook: [], // 书架数据
-  usercolor: '#c4b395',
-  userfont: 12
+  calBook: null, // 书籍数据
+  bookrack: [], // 书架数据
+  userColor: '#c4b395',
+  userFonts: 12
 
 }
 export default state

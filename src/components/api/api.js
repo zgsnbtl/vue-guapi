@@ -5,15 +5,15 @@ import axios from 'axios'
 // }
 // 书籍信息
 export function book(id) {
-  return axios.get(`/bookApi/btoc?view=summary&book=${id}`)
+  return axios.get(`/btoc?view=summary&book=${id}`)
 }
 // 获取目录列表
-export function bookmulu(id) {
-  return axios.get(`/bookApi/btoc/${id}?view=chapters&channel=mweb`)
+export function bookCatalogue(id) {
+  return axios.get(`/btoc/${id}?view=chapters&channel=mweb`)
 }
 // 获取章节内容
-export function bookcontent(link) {
-  return axios.get(`/content/${link}`)
+export function bookContent(link) {
+  return axios.get(`/chapter2/${link}`)
 }
 // 首页书籍
 export function bootd(id) {
@@ -36,34 +36,38 @@ export function bookpl(id, limit) {
   return axios.get(`/api/post/review/best-by-book?book=${id}&limit=${limit}`)
 }
 // 同类推荐
-export function bookrecommend(id) {
+export function bookRecommend(id) {
   return axios.get(`/api/book/${id}/recommend`)
 }
 // 分类
-export function bookcly() {
+export function bookCly() {
   return axios.get(`/api/cats/lv2/statistics`)
 }
 // 获取分类详情
-export function bookclyinfo(gender, type, major, minor, start, limit) {
+export function bookClyInfo(gender, type, major, minor, start, limit) {
   return axios.get(`/api/book/by-categories?gender=${gender}&type=${type}&major=${major}&minor=${minor}&start=${start}&limit=${limit}`)
 }
 // 获取分类（带子类）
-export function bookclylist() {
+export function bookClyList() {
   return axios.get(`/api/cats/lv2`)
 }
 // 获取排行榜
-export function bookrank() {
+export function bookRank() {
   return axios.get(`/api/ranking/gender`)
 }
 // 获取排行榜分类书籍
-export function bookranks(id) {
+export function bookRanks(id) {
   return axios.get(`/api/ranking/${id}`)
 }
 // 搜索
-export function booksearch(key) {
+export function bookSearch(key) {
   return axios.get(`/api/book/fuzzy-search?query=${key}`)
 }
 // 换源
-export function bookhy(id) {
+export function bookHy(id) {
   return axios.get(`/api/atoc/?view=summary&book=${id}`)
+}
+// 轮播
+export function getBanner() {
+  return axios.get(`/api/recommendPage/node/spread/575f74f27a4a60dc78a435a3?pl=ios`)
 }

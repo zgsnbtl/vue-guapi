@@ -4,7 +4,7 @@
       <p class="recom-s"></p>
       <p class="recom-p">
         <span>同类推荐</span>
-        <router-link :to="{name:'list',params:{id:recid}}" tag="span">
+        <router-link :to="{name:'list',params:{id:recId}}" tag="span">
           更多
           <i class="mui-icon mui-icon-arrowright"></i>
         </router-link>
@@ -12,12 +12,12 @@
       <router-link
         :to="{name:'book',params:{id:item._id}}"
         class="mui-table-view-cell mui-media mui-col-xs-4"
-        v-for="(item,i) in recommentlist"
+        v-for="(item,i) in commentList"
         v-if="i < 6"
         :key="item.id"
       >
         <a href="#">
-          <img @click="show" class="mui-media-object" :src="item.cover|setcover">
+          <img @click="show" class="mui-media-object" :src="item.cover|setCover">
           <div class="mui-media-body">{{item.title}}</div>
         </a>
       </router-link>
@@ -25,31 +25,31 @@
   </div>
 </template>
 <script>
-import { bookrecommend } from "../api/api.js";
-import { coverimg } from "../time/time.js";
+import { bookRecommend } from "../api/api.js";
+import { coverImg } from "../time/time.js";
 export default {
   data() {
     return {
-      recommentlist: {}
+      commentList: {}
     };
   },
-  props: ["recid"],
+  props: ["recId"],
   created() {
-    this.getcommend();
+    this.getCommend();
   },
   filters: {
-    setcover(cover) {
-      return coverimg + cover;
+    setCover(cover) {
+      return coverImg + cover;
     }
   },
   watch: {
-    "$route.params": "getcommend"
+    "$route.params": "getCommend"
   },
   methods: {
-    getcommend() {
-      bookrecommend(this.$route.params.id).then(res => {
+    getCommend() {
+      bookRecommend(this.$route.params.id).then(res => {
         if (res.status === 200) {
-          this.recommentlist = res.data.books;
+          this.commentList = res.data.books;
         }
       });
     },

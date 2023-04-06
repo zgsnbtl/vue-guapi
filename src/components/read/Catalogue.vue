@@ -2,7 +2,7 @@
   <div>
     <div class="mvlu">
       <mt-header fixed :title="title.title">
-        <div @click="getback" slot="left">
+        <div @click="getBack" slot="left">
           <mt-button icon="back">返回</mt-button>
         </div>
         <mt-button slot="right">
@@ -12,22 +12,22 @@
         </mt-button>
       </mt-header>
       <div class="paixu-p">
-        <span>共{{zjlist.length}}章</span>
+        <span>共{{ zjlist.length }}章</span>
         <span @click="show">
           <span v-if="flag">倒序</span>
           <span v-else>正序</span>
         </span>
       </div>
       <div class="paixu"></div>
-      <ul class="mvlu-ul" v-for="(item) in zjlist" :key="item.id">
-        <li @click="getmulu((item.order-1))">{{item.title}}</li>
+      <ul class="mvlu-ul" v-for="item in zjlist" :key="item.id">
+        <li @click="getmulu(item.order - 1)">{{ item.title }}</li>
       </ul>
     </div>
   </div>
 </template>
 <script>
 import { mapState, mapMutations } from "vuex";
-import { book, bookmulu } from "../api/api.js";
+import { book, bookCatalogue } from "../api/api.js";
 import { Toast } from "mint-ui";
 export default {
   data() {
@@ -37,34 +37,34 @@ export default {
       booksid: null,
       flag: true,
       title: {},
-      aa:''
+      aa: "",
     };
   },
   computed: {
-    ...mapState(["calbook"])
+    ...mapState(["calBook"]),
   },
   props: ["id"],
   created() {
-    console.log('???????????????')
+    console.log("???????????????");
     this.getmvlu();
     this.title = JSON.parse(window.localStorage.getItem("SHEFLBOOK")) || {};
   },
   methods: {
-    getback() {
+    getBack() {
       // this.$router.go(-1)
-      this.$emit("readshow");
+      this.$emit("readShow");
     },
     // 根据书籍信息id获取目录
     getmvlu() {
       Toast("加载中");
       var list = [];
       //    书籍信息
-      book(this.bookid).then(res => {
+      book(this.bookid).then((res) => {
         list.push(res);
         this.aa = list[0].data[0];
         //  目录
-        bookmulu(this.aa._id).then(res => {
-          console.log('res.data.chapters--------',res.data.chapters)
+        bookCatalogue(this.aa._id).then((res) => {
+          console.log("res.data.chapters--------", res.data.chapters);
           this.zjlist = res.data.chapters;
           this.booksid = res.data._id;
         });
@@ -76,9 +76,9 @@ export default {
       this.zjlist.reverse();
     },
     getmulu(i) {
-      this.$emit("readshow", i);
-    }
-  }
+      this.$emit("readShow", i);
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -89,18 +89,18 @@ export default {
   bottom: 0;
   left: 0;
   width: 100%;
-    height: 100%;
+  height: 100%;
   overflow-y: auto;
   z-index: 9999;
   background-color: #fff;
   // transform: translateX(-100%);
   // transition: transform .15s;
-  .mvlu-ul{
+  .mvlu-ul {
     line-height: 24px;
     margin-left: 10px;
-    li{
+    li {
       line-height: 40px;
-      border-bottom: 1px solid #c8c7cc;;
+      border-bottom: 1px solid #c8c7cc;
     }
   }
   li {

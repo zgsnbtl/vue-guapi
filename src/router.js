@@ -45,7 +45,7 @@ export default new Router({
       component: resolve => require(['./components/tabbar/Bookrack'], resolve)
     },
     {
-      path: '/book:id',
+      path: '/book/:id',
       name: 'book',
       // component: Book,
       component: resolve => require(['./components/book/Book'], resolve),
@@ -54,7 +54,7 @@ export default new Router({
       }
     },
     {
-      path: '/read:id',
+      path: '/read/:id',
       name: 'read',
       component: resolve => require(['./components/read/Read'], resolve)
     },

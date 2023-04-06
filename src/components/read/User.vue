@@ -2,7 +2,7 @@
   <div class="user">
     <div class="user-header">
       <div class="user-img">
-        <img src="../../assets/a.jpg" alt>
+        <img src="../../assets/a.jpg" alt />
       </div>
       <div class="user-name">
         <p>这个少年不太冷</p>
@@ -12,7 +12,10 @@
         <div class="mui-card-content">
           <div class="mui-card-content-inner">
             <p>此项目为学习vue写的因为平时喜欢看小说所以写这个比较有意思些</p>
-            <p>使用技术栈及ui：vue vue-cli3 vue-x vue-router axios mint-ui mui javaScript es6 sass</p>
+            <p>
+              使用技术栈及ui：vue vue-cli3 vue-x vue-router axios mint-ui mui
+              javaScript es6 sass
+            </p>
             <p>本地服务器跨域在vue-config.js中配置代理接口</p>
             <p>生产环境使用nginx反向代理即可</p>
             <p>api接口为追书神器接口.</p>
@@ -21,20 +24,17 @@
             <p>
               <a
                 href="https://github.com/zgsnbtl/vue-guapi/blob/master/src/components/api/api.js"
-              >查看接口点击这里</a>
+                >查看接口点击这里</a
+              >
             </p>
-            <p>项目源码已上传至
+            <p>
+              项目源码已上传至
               <a href="https://github.com/zgsnbtl/vue-guapi">GitHub</a>
             </p>
             <p>浏览地址<a href="http://39.96.55.152">39.96.55.152</a></p>
             <p>欢迎大家GitHub Star</p>
             <p>项目中一些bug见谅~…~</p>
           </div>
-        </div>
-        <div class="mui-card-footer">
-          <p>优化及bug联系qq1635942033</p>
-          <!-- <a class="mui-card-link">Like</a>
-          <a class="mui-card-link">Read more</a>-->
         </div>
       </div>
     </div>

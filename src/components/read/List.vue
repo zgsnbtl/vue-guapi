@@ -1,53 +1,53 @@
 <template>
   <div>
-    <!-- <h1>{{booklistid}}</h1> -->
-    <lmeiwen :booklist="booklist"></lmeiwen>
+    <!-- <h1>{{bookListId}}</h1> -->
+    <moreBook :bookList="bookList"></moreBook>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
 import { BOOK_PAGE } from "../store/mutationsType.js";
-import { bookList, bookrecommend } from "../api/api.js";
-import lmeiwen from "../sub/Lmeiwen";
+import { bookList, bookRecommend } from "../api/api.js";
+import moreBook from "../sub/moreBook";
 export default {
   data() {
     return {
       page: 1,
       id: this.$route.params.id,
-      booklistid: [],
-      booklist: []
+      bookListId: [],
+      bookList: [],
     };
   },
   computed: {
-    ...mapState(["header"])
+    ...mapState(["header"]),
   },
   components: {
-    lmeiwen
+    moreBook,
   },
   created() {
-    this.getlist(this.id);
+    this.getList(this.id);
   },
   methods: {
-    getlist(id) {
-      if (this.header.headtype === BOOK_PAGE) {
-        bookrecommend(id).then(res => {
+    getList(id) {
+      if (this.header.headType === BOOK_PAGE) {
+        bookRecommend(id).then((res) => {
           if (res.status === 200) {
-            this.booklist = res.data.books;
+            this.bookList = res.data.books;
           }
         });
       } else {
-        bookList(id, this.page).then(res => {
+        bookList(id, this.page).then((res) => {
           if (res.data.data.length === 0) {
             return [];
           }
           if (res.status === 200) {
-            res.data.data.forEach(item => {
-              this.booklist.push(item.book);
+            res.data.data.forEach((item) => {
+              this.bookList.push(item.book);
             });
           }
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>

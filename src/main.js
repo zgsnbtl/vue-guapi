@@ -13,14 +13,14 @@ import './components/lib/mui/css/mui.css'
 import mui from './components/lib/mui/js/mui.min.js'
 import './components/lib/mui/fonts/mui.ttf'
 // 全局组件
-import fenlei from './components/sub/Fenlei.vue'
+import sort from './components/sub/sort.vue'
 import meiwen from './components/sub/Meiwen.vue'
 // axios
 import axios from 'axios'
 axios.defaults.headers.post['Content-type'] = 'application/json'
 Vue.prototype.$axios = axios
 Vue.prototype.mui = mui
-Vue.component('fen-lei', fenlei)
+Vue.component('fen-lei', sort)
 Vue.component('mei-wen', meiwen)
 Vue.use(Mint)
 Vue.config.productionTip = false

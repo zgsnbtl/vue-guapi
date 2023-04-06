@@ -2,121 +2,136 @@
   <div>
     <div class="ran-k">
       <div class="rankbtn">
-        <button @click="setsex('male')" :class="{rbtn:this.ranktit==='male'}">男生</button>
-        <button @click="setsex('female')" :class="{rbtn:this.ranktit==='female'}">女生</button>
+        <button
+          @click="setSex('male')"
+          :class="{ rbtn: this.rankTitle === 'male' }"
+        >
+          男生
+        </button>
+        <button
+          @click="setSex('female')"
+          :class="{ rbtn: this.rankTitle === 'female' }"
+        >
+          女生
+        </button>
       </div>
     </div>
     <div class="rank">
       <section class="rank-left">
         <ul
-          v-show="ranktit==='male'"
+          v-show="rankTitle === 'male'"
           v-for="item in maleRank"
           :key="item.id"
           class="mui-table-view"
         >
           <li
-            @click="getrankid(item._id)"
-            :class="['mui-table-view-cell',{active:item._id===rankId}]"
-          >{{item.shortTitle}}</li>
+            @click="getRankid(item._id)"
+            :class="['mui-table-view-cell', { active: item._id === rankId }]"
+          >
+            {{ item.shortTitle }}
+          </li>
         </ul>
         <ul
-          v-show="ranktit==='female'"
+          v-show="rankTitle === 'female'"
           v-for="item in femaleRank"
           :key="item.id"
           class="mui-table-view"
         >
           <li
-            @click="getrankid(item._id)"
-            :class="['mui-table-view-cell',{active:item._id===rankId}]"
-          >{{item.shortTitle}}</li>
+            @click="getRankid(item._id)"
+            :class="['mui-table-view-cell', { active: item._id === rankId }]"
+          >
+            {{ item.shortTitle }}
+          </li>
         </ul>
       </section>
-      <section :style="{height:boxheight}" class="rank-right">
-        <!-- <lmeiwen :booklist='bookList'></lmeiwen> -->
+      <section :style="{ height: boxHeight }" class="rank-right">
+        <!-- <moreBook :bookList='bookList'></moreBook> -->
         <mt-loadmore
           :bottom-method="loadBottom"
           :bottom-all-loaded="allLoaded"
           :auto-fill="false"
           ref="loadmore"
         >
-          <lmeiwen :booklist="bookList"></lmeiwen>
+          <moreBook :bookList="bookList"></moreBook>
         </mt-loadmore>
       </section>
     </div>
   </div>
 </template>
 <script>
-import lmeiwen from '../sub/Lmeiwen'
-import {bookranks} from '../api/api.js'
-import { Navbar } from 'mint-ui'
-import {bookrank} from '../api/api.js'
+import moreBook from "../sub/moreBook";
+import { bookRanks } from "../api/api.js";
+import { Navbar } from "mint-ui";
+import { bookRank } from "../api/api.js";
 export default {
-    data () {
-        return {
-            femaleRank:{},
-            maleRank:{},
-            rankId:'',
-            ranktit:'male',
-            bookList:[],
-            count:1,
-            allLoaded: false,
-      boxheight:''
+  data() {
+    return {
+      femaleRank: {},
+      maleRank: {},
+      rankId: "",
+      rankTitle: "male",
+      bookList: [],
+      count: 1,
+      allLoaded: false,
+      boxHeight: "",
+    };
+  },
+  props: ["appRef"],
+  components: { moreBook },
+  mounted() {
+    // 获取当前列表的自适应高度
+    const headerheight = this.appRef.header.$el.offsetHeight;
+    const tabbarHeight = this.appRef.tabbar.$el.offsetHeight;
+    this.boxHeight =
+      document.documentElement.clientHeight - tabbarHeight + "px";
+  },
+  created() {
+    this.getRank();
+  },
+  watch: {
+    rankId: function () {
+      this.bookList = [];
+      bookRanks(this.rankId).then((res) => {
+        this.bookList = res.data.ranking.books.slice(0, 15);
+      });
+    },
+  },
+  methods: {
+    // 下拉加载
+    loadBottom() {
+      this.allLoaded = true;
+      bookRanks(this.rankId).then((res) => {
+        this.bookList = res.data.ranking.books.slice(0, this.count * 15 + 15);
+        this.count++;
+        this.allLoaded = false;
+      });
+    },
+    getRank() {
+      bookRank().then((res) => {
+        if (res.data.ok) {
+          this.femaleRank = res.data.female;
+          this.maleRank = res.data.male;
+          this.rankId = this.maleRank[0]._id;
         }
-    },
-      props:['appref'],
-    components:{lmeiwen},
-    mounted(){
-     // 获取当前列表的自适应高度
-    const headerheight=this.appref.header.$el.offsetHeight
-    const tabbarheight=this.appref.tabbar.$el.offsetHeight
-    this.boxheight=document.documentElement.clientHeight  - tabbarheight +'px';
-    },
-    created(){
-        this.getrank()
-    },
-    watch:{
-     'rankId':function(){
-         this.bookList = [];
-         bookranks(this.rankId).then(res=>{
-        this.bookList=res.data.ranking.books.slice(0,15);
-         })
-     }
-    },
-    methods:{
-        // 下拉加载
-        loadBottom(){
-            this.allLoaded = true;
-            bookranks(this.rankId).then(res=>{
-        this.bookList=res.data.ranking.books.slice(0,this.count*15+15);
-        this.count++
-           this.allLoaded = false;
-         })
-        },
-    getrank(){
-        bookrank().then(res=>{
-          if(res.data.ok){
-              this.femaleRank=res.data.female;
-              this.maleRank=res.data.male;
-              this.rankId=this.maleRank[0]._id
-          }
-        })
+      });
     },
     // 男女分类数据的判断
-    setsex(ranktit){
-        if(ranktit==='male'){
-        this.ranktit=ranktit;
-        this.rankId=this.maleRank[0]._id;
-          console.log(this.rankId)
-        }else if(ranktit==='female'){
-           this.ranktit= ranktit;
-            this.rankId=this.femaleRank[0]._id;
-        }
+    setSex(rankTitle) {
+      if (rankTitle === "male") {
+        this.rankTitle = rankTitle;
+        this.rankId = this.maleRank[0]._id;
+        console.log(this.rankId);
+      } else if (rankTitle === "female") {
+        this.rankTitle = rankTitle;
+        this.rankId = this.femaleRank[0]._id;
+      }
     },
-    getrankid(id){
-        this.rankId=id
-    }
-    }
-}
+    getRankid(id) {
+      this.rankId = id;
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 .ran-k {

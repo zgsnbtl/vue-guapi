@@ -26,6 +26,6 @@ function padLeftZero (str) {
   return ('00' + str).substr(str.length)
 }
 // 处理图片
-export const coverimg='http://statics.zhuishushenqi.com'
+export const coverImg='http://statics.zhuishushenqi.com'
 // 页面类型
 export const BOOK_PAGE = 'BOOK'
