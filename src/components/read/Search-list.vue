@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="searchs"><search @setSearch="show"></search></section>
+    <section class="searchs"><search @setsearch="show"></search></section>
     <section ref="load" :style="{ height: boxHeight }" class="boxs">
       <!-- <moreBook :bookList='bookList'></moreBook> -->
       <mt-loadmore
@@ -28,11 +28,11 @@ export default {
       boxHeight: "",
     };
   },
-  props: ["appRef"],
+  props: ["appref"],
   mounted() {
     // 获取当前列表的自适应高度
-    const headerheight = this.appRef.header.$el.offsetHeight;
-    const tabbarHeight = this.appRef.tabbar.$el.offsetHeight;
+    const headerheight = this.appref.header.$el.offsetHeight;
+    const tabbarHeight = this.appref.tabbar.$el.offsetHeight;
     this.boxHeight =
       document.documentElement.clientHeight - tabbarHeight + "px";
     console.log(this.boxHeight);
@@ -54,10 +54,11 @@ export default {
   components: { search, moreBook },
   methods: {
     getSearch() {
-      // var key=this.$route.params.val
       bookSearch(this.value).then((res) => {
-        this.search = res.data.books.slice(0, 15);
-        //  console.log(this.search)
+        res.data.keywords.map((item) => {
+          item._id = item.id;
+        });
+        this.search = res.data.keywords.slice(0, 15);
         //点击后重置滚动距离
         this.$refs.load.scrollTop = 0;
       });
@@ -69,14 +70,12 @@ export default {
     loadBottom() {
       this.allLoaded = true;
       bookSearch(this.value).then((res) => {
-        //   console.log(res);
         if (this.search.length === res.data.books.length) {
           this.allLoaded = false;
         }
         this.search = res.data.books.slice(0, this.count * 15 + 15);
         this.count++;
         this.allLoaded = false;
-        // console.log(    this.bookList);
       });
     },
   },

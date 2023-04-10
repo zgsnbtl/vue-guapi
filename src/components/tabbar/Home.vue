@@ -3,19 +3,18 @@
     <!-- 轮播 -->
     <mt-swipe :auto="4000">
       <mt-swipe-item v-for="(item, i) in bookBanner" :key="i"
-        ><img @click="banner(item.link)" :src="item.img" alt
+        ><img @click="goBanner(item.link)" :src="item.img" alt
       /></mt-swipe-item>
     </mt-swipe>
     <!-- 搜索 -->
     <search></search>
     <!-- 分类 -->
-    <div class="con" v-for="item in bookTitle" :key="item.id">
+    <div class="con" v-for="item in newList" :key="item.id">
       <p class="p1">{{ item.title }}</p>
       <mei-wen :bookListId="{ id: item._id }"></mei-wen>
       <div class="shux">
         <router-link :to="{ name: 'list', params: { id: item._id } }" tag="p">
           加载更多
-          <!-- <span class="el-icon-refresh"></span> -->
         </router-link>
       </div>
     </div>
@@ -25,11 +24,49 @@
 <script>
 import "../../font/fonts-user";
 import search from "../sub/search";
+import {getBanner} from  "../api/api.js";
 export default {
   data() {
     return {
       bookTitle: {},
-      newList: {},
+      newList: [
+        {
+          _id: "ce7c9687a995458d8be640adc749afce",
+          title: "都市情缘",
+        },
+        {
+          _id: "a973be5595e94841a15ca3764c93a111",
+          title: "古色古香",
+        },
+        {
+          _id: "b0a1def6f18c475d909d43924aea8777",
+          title: "玄幻魔法",
+        },
+        {
+          _id: "9f4ea00db3a04637b5b8c30e4c5986df",
+          title: "小众精品",
+        },
+        {
+          _id: "3276f21329404640a8d542679286ebd8",
+          title: "重磅推荐，不可错过",
+        },
+        {
+          _id: "af9f96a23d0f44649057266a16eeb13d",
+          title: "都市休闲，精品好书",
+        },
+        {
+          _id: "81bf66de04664d7480ca0036567fd328",
+          title: "热血玄幻，王者归来",
+        },
+        {
+          _id: "9bb738775d6146b5a1bd42f274f98832",
+          title: "奇闻推理，科幻末世",
+        },
+        {
+          _id: "b7115776e58c43419f4e69820bea2ac6",
+          title: "小众冷门，大胆尝鲜",
+        },
+      ],
       bookBanner: {},
       bookList: {},
     };
@@ -39,39 +76,15 @@ export default {
     this.getBook();
   },
   methods: {
-    getBook() {
-      // 首页分类数据
-      this.$axios
-        .get("/api/recommendPage/nodes/5910018c8094b1e228e5868f")
-        .then((res) => {
-          var arr = res.data.data;
-          if (res.data.ok) {
-            //  this.bookList=this.imgurl(res.data.data.book)
-            this.bookTitle = arr.filter((item) => {
-              //  return arrs.includes(item.order!=2);
-              return item.title != "m站顶部banner";
-            });
-          }
-        });
-      this.$axios.get("/api/ranking/54d43437d47d13ff21cad58b").then((res) => {
-        if (res.data.ok) {
-          this.newList = this.imgurl(res.data.ranking.books.slice(8, 12));
-        }
-      });
-      // 轮播数据
-      this.$axios
-        .get("/api/recommendPage/node/spread/575f74f27a4a60dc78a435a3?pl=ios")
-        .then((res) => {
-          if (res.data.ok) {
-            this.bookBanner = res.data.data.slice(0, 5);
-          }
-        });
+     async getBook() {
+      const data = await getBanner()
+      this.bookBanner = data.data.data
     },
-    banner(id) {
+    goBanner(id) {
       this.$router.push({ name: "book", params: { id: id } });
     },
     // 解决图片加载问题
-    imgurl(arr) {
+    imgUrl(arr) {
       for (let i = 0; i < arr.length; i++) {
         arr[i].cover = unescape(arr[i].cover);
         arr[i].cover = arr[i].cover.replace("/agent/", "");

@@ -107,7 +107,7 @@ export default {
       flags: false,
       dataShow: false,
       show: false,
-      iss: "0",
+      iss: 0,
       bookLink: [],
       bookTitle: [],
       getBook: {},
@@ -153,8 +153,6 @@ export default {
     ); //背景颜色
     this.getBook = JSON.parse(window.localStorage.getItem("SHEFLBOOK")); // 书籍信息
     this.isBookrack = JSON.parse(window.localStorage.getItem("BOOK_UPDATE")); //是否加入书架
-    // this.getCatalogue(this.$route.params.id);
-    // this.getcontent();
     console.log(this.bookTitle);
     this.getRead(false);
     this.getBookHy(this.getBook._id); // 换源
@@ -173,8 +171,6 @@ export default {
     },
     getBookrack() {
       // 阅读页面加入书架
-      // this.isBookrack=!this.isBookrack
-      // this.setBook(this.isBookrack);
       if (this.isBookrack) {
         MessageBox.confirm("是否要加入书架")
           .then((action) => {
@@ -247,10 +243,11 @@ export default {
     },
     // 目录显示隐藏 切换
     readShows(data) {
+      console.log("ddd----", data);
       this.show = false;
       this.iss = data;
       this.setBookIndex();
-      this.getcontent(this.bookLink[this.iss]);
+      this.getcontent();
       this.$refs.dvtop.scrollTop = 0;
     },
     getIsBookrack() {
@@ -258,47 +255,44 @@ export default {
     },
     getCatalogue(id) {
       //  目录
+      console.log("ddd----????/", this.iss);
+
       this.bookLink = [];
       this.bookTitle = []; //push后数据叠加 现将数组数据清空
-      var bookIndexs = JSON.parse(
-        window.localStorage.getItem("bookIndex") || "{}"
-      ); //章节位置
+
       var carBook = JSON.parse(window.localStorage.getItem("book"));
-      // var booklinks = [];
       bookCatalogue(id).then((res) => {
         //   将目录中的标题和链接拿出来
         res.data.chapters.forEach((item) => {
           this.bookLink.push(encodeURIComponent(item.link));
           this.bookTitle.push(item.title);
         });
-        this.iss =
-          bookIndexs && bookIndexs[this.getBook._id]
-            ? bookIndexs[this.getBook._id].bookIndex
-            : this.iss;
-        this.getcontent(this.bookLink[this.iss]);
+        this.getcontent();
       });
     },
-    getcontent(link) {
+    getcontent() {
       //  Toast('加载中')
-      console.log("----=-=-=-=-", link);
+      let bookIndexT = JSON.parse(
+        window.localStorage.getItem("bookIndex") || "{}"
+      ); //章节位置
+      this.iss =
+        bookIndexT && bookIndexT[this.getBook._id]
+          ? bookIndexT[this.getBook._id].bookIndex || this.iss
+          : this.iss;
       var content = [];
       // 获取内容
-      bookContent(link).then((res) => {
+      bookContent(this.bookLink[this.iss]).then((res) => {
         if (res.status === 200) {
-          var datas = res.data.chapter;
-          // datas.forEach((item,i)=>{
-          //     item.title=this.bookTitle[this.iss]
-          //   })
+          var dataContent = res.data.chapter;
           content.push({
-            cpContent: datas.isVip
+            cpContent: dataContent.isVip
               ? ["vip章节，请点击换源即可免费阅读"]
-              : datas.cpContent
-              ? datas.cpContent.split("\n")
-              : datas.body.split("\n"),
-            title: (datas.title = "." ? this.bookTitle[this.iss] : datas.title),
+              : dataContent.cpContent
+              ? dataContent.cpContent.split("\n")
+              : dataContent.body.split("\n"),
+            title: (dataContent.title = "." ? this.bookTitle[this.iss] : dataContent.title),
           });
           var cont = content[0];
-          // this.con = this.con.concat(cont); //  将上一章的内容拼接到下一章中
           this.con = cont;
         }
       });
@@ -327,7 +321,7 @@ export default {
         this.iss++;
       }
       this.setBookIndex();
-      this.getCatalogue(this.bookHyList[this.hyIndex]._id);
+      this.getcontent();
     },
     getShow() {
       this.dataShow = !this.dataShow;
@@ -376,10 +370,8 @@ export default {
     var carBook = JSON.parse(window.localStorage.getItem("book") || "{}");
     next((vm) => {
       if (!carBook[vm.getBook._id]) {
-        // vm.tryRead();
       }
       vm.getBookHy(vm.getBook._id);
-      // vm.getCatalogue(vm.$route.params.id);
     });
   },
 };

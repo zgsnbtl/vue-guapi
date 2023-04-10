@@ -12,6 +12,16 @@ module.exports = {
           '^/api': ''
         }
       },
+      '/category': {
+        target: 'http://b.zhuishushenqi.com',
+        ws: true,
+        changeOrigin: true,
+      },
+      '/books': {
+        target: 'http://b.zhuishushenqi.com',
+        ws: true,
+        changeOrigin: true,
+      },
       '/btoc': {
         target: 'http://bookapi03.zhuishushenqi.com',
         ws: true,

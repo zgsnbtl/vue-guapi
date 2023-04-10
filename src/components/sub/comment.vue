@@ -29,16 +29,15 @@
   </div>
 </template>
 <script>
-import { bookpl } from "../api/api.js";
+import { bookComment } from "../api/api.js";
 import { formatDate } from "../time/time.js";
 export default {
   data() {
     return {
-      comment: {},
+      comment: [],
       limit: 5,
       sUrl: "http://statics.zhuishushenqi.com",
       loading: false,
-      pageSize: 5,
       bRequest: true,
     };
   },
@@ -61,7 +60,7 @@ export default {
   },
   methods: {
     loadMore() {
-      bookpl(this.$route.params.id, this.limit).then((res) => {
+      bookComment({book:this.$route.params.id,limit: this.limit}).then((res) => {
         if (res.status === 200) {
           this.comment = res.data.reviews;
           this.limit += 5;

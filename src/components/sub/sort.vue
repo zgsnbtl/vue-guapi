@@ -25,13 +25,10 @@ export default {
         .get("/api/recommendPage/books/" + this.bookListId.id)
         .then((res) => {
           var data = res.data.data;
-          //  console.log(data)
           if (res.data.ok) {
-            //  this.bookList=this.imgurl(res.data.data.book)
             this.bookList = data.map((item) => {
               return item.book;
             });
-            //  console.log("00000"+this.bookList)
           }
         });
     },

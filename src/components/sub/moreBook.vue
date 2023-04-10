@@ -15,7 +15,7 @@
           <div class="mui-table-cell mui-col-xs-10">
             <img
               class="mui-media-object mui-pull-left"
-              :src="item.cover | getCover"
+              :src="item.cover"
               alt
             />
             <h4 class="mui-ellipsis">
@@ -53,12 +53,13 @@ import { coverImg } from "../time/time.js";
 export default {
   props: ["bookList"],
   filters: {
-    getCover(cover) {
-      if (cover.indexOf(coverImg) > -1) {
-        return cover;
-      }
-      return coverImg + cover;
-    },
+    // 过滤图片
+    // getCover(cover) {
+    //   if (cover.indexOf(coverImg) > -1) {
+    //     return cover;
+    //   }
+    //   return coverImg + cover;
+    // },
     getCount(wordCount) {
       return wordCount > 10000 ? parseInt(wordCount / 10000) + "万" : wordCount;
     },

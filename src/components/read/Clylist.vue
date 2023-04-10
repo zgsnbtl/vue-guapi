@@ -165,7 +165,6 @@ export default {
         (res) => {
           if (res.data.ok) {
             this.clyList = res.data.books;
-            //  Indicator.close();
           }
         }
       );
@@ -175,8 +174,6 @@ export default {
   beforeRouteEnter(to, from, next) {
     //   获取大类中的小类
     next((vm) => {
-      // vm.major = vm.$route.params.major;
-      // vm.gender = vm.$route.params.gender;
       bookClyList().then((res) => {
         res.data[vm.$route.params.gender].forEach((item) => {
           if (item.major === vm.$route.params.major) {

@@ -12,15 +12,15 @@
         </mt-button>
       </mt-header>
       <div class="paixu-p">
-        <span>共{{ zjlist.length }}章</span>
+        <span>共{{ list.length }}章</span>
         <span @click="show">
           <span v-if="flag">倒序</span>
           <span v-else>正序</span>
         </span>
       </div>
       <div class="paixu"></div>
-      <ul class="mvlu-ul" v-for="item in zjlist" :key="item.id">
-        <li @click="getCatalogue(item.order - 1)">{{ item.title }}</li>
+      <ul class="mvlu-ul" v-for="item in list" :key="item.id">
+        <li @click="onCatalogue(item.order - 1)">{{ item.title }}</li>
       </ul>
     </div>
   </div>
@@ -32,50 +32,48 @@ import { Toast } from "mint-ui";
 export default {
   data() {
     return {
-      zjlist: [],
-      bookid: this.id,
-      booksid: null,
+      list: [],
+      bookId: this.id,
+      booksId: null,
       flag: true,
       title: {},
       aa: "",
     };
   },
   computed: {
-    ...mapState(["calBook"]),
+    ...mapState(["calbook"]),
   },
   props: ["id"],
   created() {
     console.log("???????????????");
-    this.getmvlu();
+    this.getCatalogue();
     this.title = JSON.parse(window.localStorage.getItem("SHEFLBOOK")) || {};
   },
   methods: {
     getBack() {
-      // this.$router.go(-1)
       this.$emit("readShow");
     },
     // 根据书籍信息id获取目录
-    getmvlu() {
+    getCatalogue() {
       Toast("加载中");
       var list = [];
       //    书籍信息
-      book(this.bookid).then((res) => {
+      book(this.bookId).then((res) => {
         list.push(res);
         this.aa = list[0].data[0];
         //  目录
         bookCatalogue(this.aa._id).then((res) => {
-          console.log("res.data.chapters--------", res.data.chapters);
-          this.zjlist = res.data.chapters;
-          this.booksid = res.data._id;
+          this.list = res.data.chapters;
+          this.booksId = res.data._id;
         });
       });
     },
     // 目录倒叙
     show() {
       this.flag = !this.flag;
-      this.zjlist.reverse();
+      this.list.reverse();
     },
-    getCatalogue(i) {
+    onCatalogue(i) {
       this.$emit("readShow", i);
     },
   },

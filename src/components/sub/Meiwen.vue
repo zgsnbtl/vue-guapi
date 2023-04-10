@@ -7,7 +7,7 @@
       class="mui-table-view mui-table-view-striped mui-table-view-condensed"
     >
       <router-link
-        :to="{ name: 'book', params: { id: item.link } }"
+        :to="{ name: 'book', params: { id: item._id } }"
         class="mui-table-view-cell"
         tag="li"
       >
@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import { bootd, getBanner } from "../api/api.js";
+import { bootd, getBanner,getBookList } from "../api/api.js";
 export default {
   data() {
     return {
@@ -63,13 +63,18 @@ export default {
       //       });
       //     }
       //   });
-      const data = await getBanner();
-      this.bookList = data.data.data.slice(0, 5);
+      const params = {
+        node:id,
+        st:1,
+        size:5
+      }
+      const data = await getBookList(params);
+      this.bookList = data.data.book
     },
   },
-  watch: {
-    bookListId: "getList",
-  },
+  // watch: {
+  //   bookListId: "getList",
+  // },
 };
 </script>
 <style lang="scss" scoped>
