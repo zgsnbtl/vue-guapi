@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import { bootd, getBanner,getBookList } from "../api/api.js";
+import { getBookList } from "../api/api.js";
 export default {
   data() {
     return {
