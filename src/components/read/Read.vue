@@ -286,7 +286,6 @@ export default {
         bookIndexT && bookIndexT[this.getBook._id]
           ? bookIndexT[this.getBook._id].bookIndex || this.iss
           : this.iss;
-      console.log(" this.iss", this.iss, this.bookTitle);
       var content = [];
       // 获取内容
       // bookContent(this.bookLink[this.iss]).then((res) => {
