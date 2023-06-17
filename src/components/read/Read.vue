@@ -95,7 +95,14 @@
 import { mapState, mapMutations } from "vuex";
 import { MessageBox } from "mint-ui";
 import Catalogue from "../read/Catalogue.vue";
-import { bookContent, bookCatalogue, bookHy } from "../api/api.js";
+import { chapter } from "./chapter";
+import {
+  bookContent,
+  bookCatalogue,
+  bookHy,
+  info,
+  contentfree,
+} from "../api/api.js";
 import { Toast } from "mint-ui";
 export default {
   components: { Catalogue },
@@ -279,23 +286,48 @@ export default {
         bookIndexT && bookIndexT[this.getBook._id]
           ? bookIndexT[this.getBook._id].bookIndex || this.iss
           : this.iss;
+      console.log(" this.iss", this.iss, this.bookTitle);
       var content = [];
       // 获取内容
-      bookContent(this.bookLink[this.iss]).then((res) => {
-        if (res.status === 200) {
-          var dataContent = res.data.chapter;
-          content.push({
-            cpContent: dataContent.isVip
-              ? ["vip章节，请点击换源即可免费阅读"]
-              : dataContent.cpContent
-              ? dataContent.cpContent.split("\n")
-              : dataContent.body.split("\n"),
-            title: (dataContent.title = "." ? this.bookTitle[this.iss] : dataContent.title),
-          });
-          var cont = content[0];
-          this.con = cont;
-        }
-      });
+      // bookContent(this.bookLink[this.iss]).then((res) => {
+      //   if (res.status === 200) {
+      //     var dataContent = res.data.chapter;
+      //     content.push({
+      //       cpContent: dataContent.isVip
+      //         ? ["vip章节，请点击换源即可免费阅读"]
+      //         : dataContent.cpContent
+      //         ? dataContent.cpContent.split("\n")
+      //         : dataContent.body.split("\n"),
+      //       title: (dataContent.title = "." ? this.bookTitle[this.iss] : dataContent.title),
+      //     });
+      //     var cont = content[0];
+      //     this.con = cont;
+      //   }
+      // });
+      // 假数据
+      this.updateBook(this.iss);
+    },
+    // 假数据api
+    async updateBook(index) {
+      let chapterList = chapter[Math.floor(Math.random() * 4)].volumeList;
+      console.log(index, chapterList, chapterList[index].contUrlSuffix);
+      if (index > 20) {
+        const contentData = await contentfree(
+          chapterList[Math.floor(Math.random() * 20)].contUrlSuffix
+        );
+        const body = this._decodeCont(contentData.data.ChapterContent);
+        this.con = {
+          cpContent: body.split("\n"),
+          title: this.bookTitle[this.iss],
+        };
+      } else {
+        const contentData = await contentfree(chapterList[index].contUrlSuffix);
+        const body = this._decodeCont(contentData.data.ChapterContent);
+        this.con = {
+          cpContent: body.split("\n"),
+          title: this.bookTitle[this.iss],
+        };
+      }
     },
     // 加载上一章
     before() {
@@ -364,6 +396,65 @@ export default {
       this.hyIndex = i;
       this.getCatalogue(this.bookHyList[this.hyIndex]._id);
       this.dataHy = !this.dataHy;
+    },
+    // 解密
+    _decodeCont(t) {
+      return (
+        (t = (function (t) {
+          return t
+            .split("")
+            .map(function (t) {
+              var e, i;
+              return t.match(/[A-Za-z]/)
+                ? ((e = Math.floor(t.charCodeAt(0) / 97)),
+                  (i = (t.toLowerCase().charCodeAt(0) - 83) % 26 || 26),
+                  String.fromCharCode(i + (0 == e ? 64 : 96)))
+                : t;
+            })
+            .join("");
+        })(t)),
+        (function (t) {
+          var e,
+            i,
+            a,
+            n,
+            r,
+            o,
+            c,
+            s =
+              "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+            d = "",
+            l = 0;
+          for (t = t.replace(/[^A-Za-z0-9\+\/\=]/g, ""); l < t.length; )
+            (n = s.indexOf(t.charAt(l++))),
+              (r = s.indexOf(t.charAt(l++))),
+              (o = s.indexOf(t.charAt(l++))),
+              (c = s.indexOf(t.charAt(l++))),
+              (e = (n << 2) | (r >> 4)),
+              (i = ((15 & r) << 4) | (o >> 2)),
+              (a = ((3 & o) << 6) | c),
+              (d += String.fromCharCode(e)),
+              64 != o && (d += String.fromCharCode(i)),
+              64 != c && (d += String.fromCharCode(a));
+          return (function (t) {
+            for (var e, i = "", a = 0, n = 0, r = 0; a < t.length; )
+              (n = t.charCodeAt(a)),
+                n < 128
+                  ? ((i += String.fromCharCode(n)), a++)
+                  : n > 191 && n < 224
+                  ? ((r = t.charCodeAt(a + 1)),
+                    (i += String.fromCharCode(((31 & n) << 6) | (63 & r))),
+                    (a += 2))
+                  : ((r = t.charCodeAt(a + 1)),
+                    (e = t.charCodeAt(a + 2)),
+                    (i += String.fromCharCode(
+                      ((15 & n) << 12) | ((63 & r) << 6) | (63 & e)
+                    )),
+                    (a += 3));
+            return i;
+          })(d);
+        })(t)
+      );
     },
   },
   beforeRouteEnter(to, from, next) {

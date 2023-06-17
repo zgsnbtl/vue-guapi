@@ -24,7 +24,7 @@
 <script>
 import "../../font/fonts-user";
 import search from "../sub/search";
-import {getBanner} from  "../api/api.js";
+import { getBanner, update, info } from "../api/api.js";
 export default {
   data() {
     return {
@@ -74,11 +74,12 @@ export default {
   components: { search },
   created() {
     this.getBook();
+    this.updateBook();
   },
   methods: {
-     async getBook() {
-      const data = await getBanner()
-      this.bookBanner = data.data.data
+    async getBook() {
+      const data = await getBanner();
+      this.bookBanner = data.data.data;
     },
     goBanner(id) {
       this.$router.push({ name: "book", params: { id: id } });

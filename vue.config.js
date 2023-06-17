@@ -31,6 +31,24 @@ module.exports = {
         target: 'http://chapter3.zhuishushenqi.com',
         changeOrigin: true,
         ws: true,
+      },
+      '/book': {
+        target: 'http://newbookstoreapi.shuqireader.com',
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/book': ''
+        }
+      },
+      '/ta': {
+        target: 'https://book.eayue.com',
+        changeOrigin: true,
+        ws: true,
+      },
+      '/openapi': {
+        target: 'https://c-100.11222.cn',
+        changeOrigin: true,
+        ws: true,
       }
     }
   }

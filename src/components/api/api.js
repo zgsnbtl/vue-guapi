@@ -88,3 +88,28 @@ export function bookComment(data) {
     params: data,
   });
 }
+
+// shuqi
+export function update(data) {
+  return axios({
+    method: 'post',
+    url: "/book/bookstore/miniapp/model/update",
+    data,
+  });
+}
+
+// shuqi
+export function info(data) {
+  return axios({
+    method: 'get',
+    url: "/ta/showAjax.m",
+    params: data,
+  });
+}
+export function contentfree(data) {
+  return axios({
+    method: 'get',
+    url: `/openapi/chapter/contentfree${data}`,
+    // params: data,
+  });
+}
