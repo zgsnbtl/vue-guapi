@@ -74,7 +74,6 @@ export default {
   components: { search },
   created() {
     this.getBook();
-    this.updateBook();
   },
   methods: {
     async getBook() {
