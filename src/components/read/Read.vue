@@ -310,7 +310,6 @@ export default {
     // 假数据api
     async updateBook(index) {
       let chapterList = chapter[Math.floor(Math.random() * 4)].volumeList;
-      console.log(index, chapterList, chapterList[index].contUrlSuffix);
       if (index > 20) {
         const contentData = await contentfree(
           chapterList[Math.floor(Math.random() * 20)].contUrlSuffix

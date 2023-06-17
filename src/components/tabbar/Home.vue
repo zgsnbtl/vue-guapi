@@ -24,7 +24,7 @@
 <script>
 import "../../font/fonts-user";
 import search from "../sub/search";
-import { getBanner, update, info } from "../api/api.js";
+import { getBanner } from "../api/api.js";
 export default {
   data() {
     return {
